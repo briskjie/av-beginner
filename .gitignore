@@ -1,2 +1,5 @@
 cmake-build-debug/
 .idea/
+
+# 忽略该文件夹，存储程序生成的内容，不上传
+resource/gen/

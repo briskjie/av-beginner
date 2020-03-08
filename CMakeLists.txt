@@ -16,6 +16,8 @@ link_sound_touch()
 
 add_subdirectory(sdl_tutorial)
 add_subdirectory(sound_touch_tutorial)
+add_subdirectory(play_ground)
+add_subdirectory(ffmpeg_tutorial)
 
 
 ## 声明一个变量 SDL_DIR 为 SDL 安装路径

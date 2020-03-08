@@ -1,0 +1,12 @@
+
+add_executable(sdl_05_play_pcm_audio_file_by_push sdl_play_pcm_audio_file_by_push.cpp)
+
+target_link_sdl(sdl_05_play_pcm_audio_file_by_push)
+target_link_sdl_image(sdl_05_play_pcm_audio_file_by_push)
+
+#
+
+add_executable(sdl_05_play_pcm_audio_file_by_pull sdl_play_pcm_audio_file_by_pull.cpp)
+
+target_link_sdl(sdl_05_play_pcm_audio_file_by_pull)
+target_link_sdl_image(sdl_05_play_pcm_audio_file_by_pull)

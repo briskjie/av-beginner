@@ -1,0 +1,6 @@
+
+add_executable(sdl_04_display_yuv_video_file sdl_play_yuv_video_file.cpp)
+
+target_link_sdl(sdl_04_display_yuv_video_file)
+target_link_sdl_image(sdl_04_display_yuv_video_file)
+

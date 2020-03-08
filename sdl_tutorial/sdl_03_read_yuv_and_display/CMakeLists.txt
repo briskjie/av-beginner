@@ -1,6 +1,0 @@
-
-add_executable(sdl_03_read_yuv_and_display sdl_read_yuv_and_display.cpp)
-
-target_link_sdl(sdl_03_read_yuv_and_display)
-target_link_sdl_image(sdl_03_read_yuv_and_display)
-

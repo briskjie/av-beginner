@@ -1,4 +1,6 @@
 add_subdirectory(sdl_01_create_and_show_window)
 add_subdirectory(sdl_02_load_image_and_display)
-add_subdirectory(sdl_03_read_yuv_and_display)
+add_subdirectory(sdl_03_display_yuv_image_file)
+add_subdirectory(sdl_04_display_yuv_video_file)
+add_subdirectory(sdl_05_play_pcm_audio_file)
 
