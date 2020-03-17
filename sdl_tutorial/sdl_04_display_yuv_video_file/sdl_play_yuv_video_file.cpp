@@ -58,14 +58,14 @@ int main() {
         return -1;
     }
 
+    // 打开文件
     unsigned char *yuv_data;
     int frameSize = width * height * 3 / 2;
     yuv_data = static_cast<unsigned char *>(malloc(frameSize * sizeof(unsigned char)));
 
     SDL_Renderer *renderer = SDL_CreateRenderer(window,-1,0);
-
+    // 创建纹理
     SDL_Texture *texture = SDL_CreateTexture(renderer,SDL_PIXELFORMAT_IYUV,SDL_TEXTUREACCESS_STREAMING,width,height);
-
 
     if (texture != nullptr){
         SDL_Event windowEvent;
@@ -75,10 +75,13 @@ int main() {
                     break;
                 }
             }
+            // 读取内容
             if (fread(yuv_data,1,frameSize,pFile) != frameSize){
+                // 读取内容小于 frameSize ，seek 到 0 ，重新读取，类似于重播
                 fseek(pFile,0,SEEK_SET);
                 fread(yuv_data,1,frameSize,pFile);
             }
+            //
             SDL_UpdateTexture(texture, nullptr,yuv_data,width);
             SDL_RenderClear(renderer);
             SDL_RenderCopy(renderer,texture, nullptr, nullptr);
