@@ -89,17 +89,15 @@ endmacro()
 
 macro(target_link_glew name)
     message("${name} link glew")
-    find_library(glew GLEW)
     target_link_libraries(${name}
-            ${glew}
+            GLEW
             )
 endmacro()
 
 macro(target_link_glfw name)
-    message("${name} link glew")
-    find_library(glfw glfw)
+    message("${name} link glfw")
     target_link_libraries(${name}
-            ${glew}
+            glfw
             )
 endmacro()
 
