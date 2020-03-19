@@ -20,7 +20,7 @@
 using namespace std;
 
 #ifdef PROJECT_DIR_PATH
-string path = string(PROJECT_DIR_PATH) + "/resource/audio/music.pcm";
+string path = string(PROJECT_DIR_PATH) + "/resource/audio/test.pcm";
 #endif
 
 const int  width = 500,height = 500;
@@ -74,7 +74,7 @@ int main(){
     SDL_Event windowEvent;
 
     int num;
-    SDL_PauseAudioDevice(deviceId,0);
+    SDL_PauseAudioDevice(deviceId,1);
 
     bool bQuit = false;
     while (!bQuit){

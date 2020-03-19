@@ -5,6 +5,7 @@ macro(init_path)
     set(sdl_dir "/usr/local/Cellar/sdl2/2.0.10")
     set(sdl_image_dir "/usr/local/Cellar/sdl2_image/2.0.5")
     set(sound_touch_dir "/usr/local/Cellar/sound-touch/2.1.2")
+    set(glew_dir "/usr/local/Cellar/glew/2.1.0_1")
 endmacro()
 
 # ----------------  link library  ----------------
@@ -26,6 +27,11 @@ macro(link_sound_touch)
     link_libraries(${sound_touch_dir}/lib)
 endmacro()
 
+macro(link_glew)
+    message("link glew library and path is ${glew_dir}")
+    include_directories(${glew_dir}/include/)
+    link_libraries(${glew_dir}/lib/)
+endmacro()
 
 # ----------------  target link library  ----------------
 macro(target_link_sdl name)
@@ -48,6 +54,14 @@ macro(target_link_sound_touch name)
 #   target_link_libraries 直接链接 SoundTouch 出问题，加一个 find_library 就好了
     find_library(soundTouch SoundTouch)
     target_link_libraries(${name} ${soundTouch})
+endmacro()
+
+macro(target_link_glew name)
+    message("${name} link glew")
+    find_library(glew GLEW)
+    target_link_libraries(${name}
+            ${glew}
+            )
 endmacro()
 
 # ----------------  init definition  ----------------

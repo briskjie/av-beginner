@@ -11,13 +11,14 @@ init_definition()
 link_sdl()
 link_sdl_image()
 link_sound_touch()
-
+link_glew()
 
 
 add_subdirectory(sdl_tutorial)
 add_subdirectory(sound_touch_tutorial)
 add_subdirectory(play_ground)
 add_subdirectory(ffmpeg_tutorial)
+add_subdirectory(shader_tutorial)
 
 
 ## 声明一个变量 SDL_DIR 为 SDL 安装路径
