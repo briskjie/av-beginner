@@ -14,16 +14,14 @@
 * limitations under the License.
 */
 
+#ifndef AV_BEGINNER_SHADER_H
+#define AV_BEGINNER_SHADER_H
 
-#include <iostream>
-#include <vector>
-using namespace std;
+#include <common.h>
+
+class Shader {
+
+};
 
 
-
-int main() {
-
-    cout << "this is c++ playground for you ~~~\n";
-
-    return 0;
-}
+#endif //AV_BEGINNER_SHADER_H

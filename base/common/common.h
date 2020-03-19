@@ -14,16 +14,9 @@
 * limitations under the License.
 */
 
+#ifndef AV_BEGINNER_COMMON_H
+#define AV_BEGINNER_COMMON_H
 
-#include <iostream>
-#include <vector>
-using namespace std;
+#include <GL/glew.h>
 
-
-
-int main() {
-
-    cout << "this is c++ playground for you ~~~\n";
-
-    return 0;
-}
+#endif //AV_BEGINNER_COMMON_H

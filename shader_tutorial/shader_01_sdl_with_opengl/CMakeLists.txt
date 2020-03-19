@@ -3,3 +3,4 @@ add_executable(shader_01_sdl_with_opengl sdl_with_opengl.cpp)
 
 target_link_sdl(shader_01_sdl_with_opengl)
 target_link_glew(shader_01_sdl_with_opengl)
+target_link_opengl(shader_01_sdl_with_opengl)

@@ -14,16 +14,4 @@
 * limitations under the License.
 */
 
-
-#include <iostream>
-#include <vector>
-using namespace std;
-
-
-
-int main() {
-
-    cout << "this is c++ playground for you ~~~\n";
-
-    return 0;
-}
+#include <camera.h>

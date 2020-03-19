@@ -14,16 +14,13 @@
 * limitations under the License.
 */
 
-
-#include <iostream>
-#include <vector>
-using namespace std;
+#ifndef AV_BEGINNER_TEXTURE_H
+#define AV_BEGINNER_TEXTURE_H
 
 
+class Texture {
 
-int main() {
+};
 
-    cout << "this is c++ playground for you ~~~\n";
 
-    return 0;
-}
+#endif //AV_BEGINNER_TEXTURE_H

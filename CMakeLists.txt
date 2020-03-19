@@ -8,12 +8,15 @@ add_subdirectory(cmake_utils)
 init_path()
 init_definition()
 
+link_base()
 link_sdl()
 link_sdl_image()
 link_sound_touch()
 link_glew()
+link_glfw()
+link_glm()
 
-
+add_subdirectory(base)
 add_subdirectory(sdl_tutorial)
 add_subdirectory(sound_touch_tutorial)
 add_subdirectory(play_ground)
@@ -30,4 +33,4 @@ add_subdirectory(shader_tutorial)
 
 add_executable(av-beginner main.cpp)
 
-target_link_sdl(av-beginner)
+target_link_base(av-beginner)
