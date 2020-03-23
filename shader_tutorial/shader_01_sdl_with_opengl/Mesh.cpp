@@ -14,17 +14,14 @@
 * limitations under the License.
 */
 
-#ifndef AV_BEGINNER_COMMON_H
-#define AV_BEGINNER_COMMON_H
+#include "Mesh.h"
 
-#include <log.h>
-#include <iostream>
-using namespace std;
+Mesh::Mesh(vector<Vertex> vertices, vector<GLuint> indices, vector<Texture> texture) {
+    this->vertices = vertices;
+    this->indices = indices;
+    this->textures = texture;
+
+    this->setupMesh();
+}
 
 
-#include <SDL.h>
-
-
-#include <gl_base.h>
-
-#endif //AV_BEGINNER_COMMON_H

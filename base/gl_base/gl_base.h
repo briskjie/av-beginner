@@ -14,17 +14,9 @@
 * limitations under the License.
 */
 
-#ifndef AV_BEGINNER_COMMON_H
-#define AV_BEGINNER_COMMON_H
+#ifndef AV_BEGINNER_GL_BASH_H
+#define AV_BEGINNER_GL_BASH_H
 
-#include <log.h>
-#include <iostream>
-using namespace std;
+#include <GL/glew.h>
 
-
-#include <SDL.h>
-
-
-#include <gl_base.h>
-
-#endif //AV_BEGINNER_COMMON_H
+#endif //AV_BEGINNER_GL_BASH_H

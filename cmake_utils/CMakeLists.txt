@@ -15,8 +15,10 @@ endmacro()
 
 macro(link_base)
     message("link base")
-    include_directories(${base_dir}/gl-base/include)
-    include_directories(${base_dir}/common/)
+    include_directories(${base_dir}/gl_base/include)
+    include_directories(${base_dir}/gl_base)
+    include_directories(${base_dir}/common)
+    include_directories(${base_dir}/display)
 endmacro()
 
 macro(link_sdl)

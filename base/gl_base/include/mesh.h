@@ -14,17 +14,14 @@
 * limitations under the License.
 */
 
-#ifndef AV_BEGINNER_COMMON_H
-#define AV_BEGINNER_COMMON_H
-
-#include <log.h>
-#include <iostream>
-using namespace std;
-
-
-#include <SDL.h>
-
+#ifndef AV_BEGINNER_MESH_H
+#define AV_BEGINNER_MESH_H
 
 #include <gl_base.h>
 
-#endif //AV_BEGINNER_COMMON_H
+class Mesh {
+
+};
+
+
+#endif //AV_BEGINNER_MESH_H

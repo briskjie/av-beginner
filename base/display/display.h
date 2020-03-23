@@ -14,17 +14,21 @@
 * limitations under the License.
 */
 
-#ifndef AV_BEGINNER_COMMON_H
-#define AV_BEGINNER_COMMON_H
+#ifndef AV_BEGINNER_DISPLAY_H
+#define AV_BEGINNER_DISPLAY_H
 
-#include <log.h>
-#include <iostream>
-using namespace std;
+#include <common.h>
+
+class Display {
+
+public:
+    Display(int width,int height,const string& title);
+    ~Display();
+
+private:
+    SDL_Window *pWindow;
+    SDL_GLContext GLContext;
+};
 
 
-#include <SDL.h>
-
-
-#include <gl_base.h>
-
-#endif //AV_BEGINNER_COMMON_H
+#endif //AV_BEGINNER_DISPLAY_H

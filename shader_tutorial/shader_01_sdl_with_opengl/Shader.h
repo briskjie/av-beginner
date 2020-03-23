@@ -14,17 +14,13 @@
 * limitations under the License.
 */
 
-#ifndef AV_BEGINNER_COMMON_H
-#define AV_BEGINNER_COMMON_H
-
-#include <log.h>
-#include <iostream>
-using namespace std;
+#ifndef AV_BEGINNER_SHADER_H
+#define AV_BEGINNER_SHADER_H
 
 
-#include <SDL.h>
+class Shader {
+
+};
 
 
-#include <gl_base.h>
-
-#endif //AV_BEGINNER_COMMON_H
+#endif //AV_BEGINNER_SHADER_H

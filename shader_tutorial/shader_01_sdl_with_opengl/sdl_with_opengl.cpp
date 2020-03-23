@@ -20,6 +20,9 @@
 #include <SDL.h>
 
 #include <common.h>
+#include <log.h>
+
+#include <gl_base.h>
 
 using namespace std;
 #define WINDOW_DEFAULT_WIDTH 640
