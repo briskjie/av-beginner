@@ -17,7 +17,12 @@
 #ifndef AV_BEGINNER_DISPLAY_H
 #define AV_BEGINNER_DISPLAY_H
 
-#include <common.h>
+#include <SDL.h>
+#include <GL/glew.h>
+#include <log.h>
+#include <iostream>
+#include <string>
+using namespace std;
 
 class Display {
 
@@ -25,9 +30,32 @@ public:
     Display(int width,int height,const string& title);
     ~Display();
 
+    void clear(float r, float g, float b, float a);
+    void swapBuffers();
+
 private:
-    SDL_Window *pWindow;
-    SDL_GLContext GLContext;
+    SDL_Window *mWindow;
+    SDL_GLContext mGLContext;
+
+//    // 拷贝构造函数
+//    Display(const Display &display){
+//
+//    }
+//
+//    // 移动构造函数
+//    Display(Display && display){
+//
+//    }
+//
+//    // 拷贝赋值运算符
+//    Display & operator=(const Display& display){
+//
+//    }
+//
+//    // 移动赋值运算符
+//    Display &operator=(const Display&& display){
+//
+//    }
 };
 
 

@@ -19,4 +19,13 @@
 
 #include <GL/glew.h>
 
+#include <glm/glm.hpp>
+#include <glm/gtc/matrix_transform.hpp>
+
+//#ifndef STB_IMAGE_IMPLEMENTATION
+//
+//#endif //STB_IMAGE_IMPLEMENTATION
+
+
+
 #endif //AV_BEGINNER_GL_BASH_H

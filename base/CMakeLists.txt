@@ -10,6 +10,7 @@ file(GLOB_RECURSE DISPLAY_SOURCE display/*.cpp)
 include_directories(${CMAKE_CURRENT_SOURCE_DIR}/gl_base/include)
 include_directories(${CMAKE_CURRENT_SOURCE_DIR}/gl_base)
 include_directories(${CMAKE_CURRENT_SOURCE_DIR}/common)
+include_directories(${CMAKE_CURRENT_SOURCE_DIR}/stb)
 
 
 #set(glew_dir "/usr/local/Cellar/glew/2.1.0_1")
@@ -24,6 +25,7 @@ add_library(base SHARED
         ${DISPLAY_HEADER} ${DISPLAY_SOURCE})
 
 target_link_glew(base)
+target_link_opengl(base)
 target_link_sdl(base)
 
 set_target_properties(base PROPERTIES LINKER_LANGUAGE CXX)

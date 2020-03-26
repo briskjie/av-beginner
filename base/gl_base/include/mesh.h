@@ -18,9 +18,50 @@
 #define AV_BEGINNER_MESH_H
 
 #include <gl_base.h>
+#include <iostream>
+#include <vector>
+#include <common.h>
+
+//#define STB_IMAGE_IMPLEMENTATION
+//#include <stb_image.h>
+
+using namespace std;
+
+struct Vertex{
+public:
+    Vertex(const glm::vec3 & pos){
+        this->Position = pos;
+    }
+
+    glm::vec3 *getPos(){
+        return &Position;
+    }
+
+private:
+    glm::vec3 Position;
+//    glm::vec2 TexCoords;
+//    glm::vec3 Normal;
+};
 
 class Mesh {
 
+public:
+
+    vector<Vertex> vertices;
+    vector<GLuint> indices;
+
+    Mesh(vector<Vertex> & vertices, vector<GLuint> & indices);
+
+    ~Mesh();
+
+    void Draw();
+
+private:
+    GLuint VAO,VBO,EBO;
+
+    void setupMesh();
+
+//    GLuint mVBO[3];
 };
 
 

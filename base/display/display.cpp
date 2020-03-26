@@ -28,14 +28,37 @@ Display::Display(int width, int height, const string &title) {
     SDL_GL_SetAttribute(SDL_GL_DEPTH_SIZE, 16);
     SDL_GL_SetAttribute(SDL_GL_DOUBLEBUFFER, 1);
 
-    pWindow = SDL_CreateWindow(title.c_str(),
+    mWindow = SDL_CreateWindow(title.c_str(),
                                SDL_WINDOWPOS_CENTERED, SDL_WINDOWPOS_CENTERED,
                                width, height, SDL_WINDOW_OPENGL);
-    GLContext = SDL_GL_CreateContext(pWindow);
+    mGLContext = SDL_GL_CreateContext(mWindow);
 
+    // fix : https://stackoverflow.com/questions/46376020/opengl-glgenvertexarrays-thread-1-exc-bad-access-code-1-address-0x0
+    glewExperimental = GL_TRUE;
+    if (glewInit() != GLEW_OK){
+        AVLOG("init glew failed");
+    }
+
+    glEnable(GL_DEPTH_TEST);
+//    glEnable(GL_CULL_FACE);
+//    glCullFace(GL_BACK);
 
 }
 
 Display::~Display() {
-
+    SDL_GL_DeleteContext(mGLContext);
+    SDL_DestroyWindow(mWindow);
+    SDL_Quit();
 }
+
+void Display::clear(float r, float g, float b, float a) {
+    glClearColor(r,g,b,a);
+    glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
+}
+
+void Display::swapBuffers() {
+    SDL_GL_SwapWindow(mWindow);
+}
+
+
+

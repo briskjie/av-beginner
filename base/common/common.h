@@ -19,11 +19,11 @@
 
 #include <log.h>
 #include <iostream>
+#include <string>
 using namespace std;
 
 
 #include <SDL.h>
-
 
 #include <gl_base.h>
 

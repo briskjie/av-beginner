@@ -17,9 +17,27 @@
 #ifndef AV_BEGINNER_TEXTURE_H
 #define AV_BEGINNER_TEXTURE_H
 
+#include <gl_base.h>
+#include <iostream>
+#include <vector>
+#include <fstream>
+#include <log.h>
+#define STB_IMAGE_IMPLEMENTATION
+#include <stb_image.h>
+
+using namespace std;
 
 class Texture {
 
+public:
+    Texture(const string & fileName);
+
+    ~Texture();
+
+    void bind();
+
+private:
+    GLuint mTexture;
 };
 
 

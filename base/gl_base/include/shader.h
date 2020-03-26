@@ -17,10 +17,34 @@
 #ifndef AV_BEGINNER_SHADER_H
 #define AV_BEGINNER_SHADER_H
 
-#include <common.h>
+#include <gl_base.h>
+#include <iostream>
+#include <vector>
+#include <fstream>
+#include <log.h>
+
+//#define STB_IMAGE_IMPLEMENTATION
+//#include <stb_image.h>
+
+using namespace std;
 
 class Shader {
 
+public:
+    Shader(const string& vertexFile, const string & fragmentFile);
+    ~Shader();
+
+    void bind();
+
+private:
+    GLuint mProgram;
+    GLuint mShaders[2];
+    GLuint mUniforms[3];
+
+    GLuint mColor;
+    string loadShader(const string & filePath);
+    GLuint createShader(const string& text , unsigned int type);
+    void checkShaderError(GLuint shader,GLuint flag,bool isProgram,const string &errorMsg);
 };
 
 
