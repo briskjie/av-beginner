@@ -33,4 +33,6 @@ add_subdirectory(shader_tutorial)
 
 add_executable(av-beginner main.cpp)
 
+include_directories(${CMAKE_SOURCE_DIR}/glad_gl_3_3/include)
+
 target_link_base(av-beginner)

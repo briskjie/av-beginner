@@ -19,6 +19,8 @@ macro(link_base)
     include_directories(${base_dir}/gl_base)
     include_directories(${base_dir}/common)
     include_directories(${base_dir}/display)
+    include_directories(${base_dir}/stb)
+    include_directories(${CMAKE_SOURCE_DIR}/glad_gl_3_3/include)
 endmacro()
 
 macro(link_sdl)

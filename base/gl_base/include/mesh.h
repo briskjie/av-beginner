@@ -22,25 +22,19 @@
 #include <vector>
 #include <common.h>
 
-//#define STB_IMAGE_IMPLEMENTATION
-//#include <stb_image.h>
-
 using namespace std;
 
 struct Vertex{
 public:
+
     Vertex(const glm::vec3 & pos){
         this->Position = pos;
     }
 
-    glm::vec3 *getPos(){
-        return &Position;
-    }
-
-private:
+//private:
     glm::vec3 Position;
-//    glm::vec2 TexCoords;
 //    glm::vec3 Normal;
+//    glm::vec2 TexCoords;
 };
 
 class Mesh {
@@ -61,7 +55,6 @@ private:
 
     void setupMesh();
 
-//    GLuint mVBO[3];
 };
 
 

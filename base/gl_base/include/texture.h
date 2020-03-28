@@ -22,6 +22,7 @@
 #include <vector>
 #include <fstream>
 #include <log.h>
+
 #define STB_IMAGE_IMPLEMENTATION
 #include <stb_image.h>
 

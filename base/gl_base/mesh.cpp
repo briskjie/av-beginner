@@ -16,36 +16,38 @@
 
 #include <mesh.h>
 
-Mesh::Mesh(vector<Vertex> & vertices, vector<GLuint> & indices): vertices(vertices),indices(indices){
+Mesh::Mesh(vector<Vertex> &vertices, vector<GLuint> &indices) : vertices(vertices), indices(indices) {
     this->setupMesh();
-    AVLOG("indices size is %d",this->indices.size());
-    AVLOG("vertices size is %d",this->vertices.size());
+    AVLOG("indices size is %d", this->indices.size());
+    AVLOG("vertices size is %d", this->vertices.size());
 }
 
 void Mesh::setupMesh() {
 
 
-    glGenVertexArrays(1,&this->VAO);
-    glBindVertexArray(this->VAO);
+    glGenVertexArrays(1, &this->VAO);
 
-    glGenBuffers(1,&this->VBO);
-    glGenBuffers(1,&this->EBO);
+    glGenBuffers(1, &this->VBO);
+    glGenBuffers(1, &this->EBO);
+
+    glBindVertexArray(this->VAO);
 
 
     // 两种设置方法，一次性全设置进去，然后通过 glVertexAttribPointer 的最后一个参数来设置结构体间隔
     // 或者分开设置
-    glBindBuffer(GL_ARRAY_BUFFER,this->VBO);
-    glBufferData(GL_ARRAY_BUFFER, this->vertices.size() * sizeof(Vertex),&this->vertices[0],GL_STATIC_DRAW);
+    glBindBuffer(GL_ARRAY_BUFFER, this->VBO);
+    glBufferData(GL_ARRAY_BUFFER, this->vertices.size() * sizeof(Vertex), &this->vertices[0], GL_STATIC_DRAW);
 
-    glBindBuffer(GL_ELEMENT_ARRAY_BUFFER,this->EBO);
-    glBufferData(GL_ELEMENT_ARRAY_BUFFER,this->indices.size() * sizeof(GLuint),&this->indices[0],GL_STATIC_DRAW);
+    glBindBuffer(GL_ELEMENT_ARRAY_BUFFER, this->EBO);
+    glBufferData(GL_ELEMENT_ARRAY_BUFFER, this->indices.size() * sizeof(GLuint), &this->indices[0], GL_STATIC_DRAW);
 
     glEnableVertexAttribArray(0);
-    glVertexAttribPointer(0,3,GL_FLOAT,GL_FALSE, sizeof(Vertex),(GLvoid*)0);
+    glVertexAttribPointer(0, 3, GL_FLOAT, GL_FALSE, sizeof(Vertex), (GLvoid *) 0);
 //    注释掉，只使用 position 的坐标
 //    // offsetof 得到结构体中成员的偏移量
 //    glEnableVertexAttribArray(1);
-//    glVertexAttribPointer(1, 3, GL_FLOAT, GL_FALSE, sizeof(Vertex), (GLvoid*)offsetof(Vertex, Normal));
+//    glVertexAttribPointer(1, 2, GL_FLOAT, GL_FALSE, sizeof(Vertex), (GLvoid*)offsetof(Vertex, TexCoords));
+
 //    glEnableVertexAttribArray(2);
 //    glVertexAttribPointer(2, 2, GL_FLOAT, GL_FALSE, sizeof(Vertex), (GLvoid*)offsetof(Vertex, TexCoords));
 
@@ -58,10 +60,11 @@ Mesh::~Mesh() {
 
 void Mesh::Draw() {
 //    glActiveTexture(GL_TEXTURE0);
-    glClearColor(0.0,0.0,0.0,1.0);
-    glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
+
+//    glClearColor(0.0,0.0,0.0,1.0);
+//    glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
 
     glBindVertexArray(this->VAO);
-    glDrawElements(GL_TRIANGLES,this->indices.size(),GL_UNSIGNED_INT,0);
+    glDrawElements(GL_TRIANGLES, this->indices.size(), GL_UNSIGNED_INT, 0);
     glBindVertexArray(0);
 }

@@ -26,7 +26,8 @@ Shader::Shader(const string &vertexFile, const string & fragmentFile) {
         glAttachShader(mProgram,mShaders[i]);
     }
 
-    glBindAttribLocation(mProgram,0,"a_Position");
+//    glBindAttribLocation(mProgram,0,"a_Position");
+//    glBindAttribLocation(mProgram,1,"texCoord");
 
     glLinkProgram(mProgram);
     checkShaderError(mProgram,GL_LINK_STATUS, true,"Error linking shader program");
@@ -83,7 +84,7 @@ GLuint Shader::createShader(const string &text, unsigned int type) {
 //    glGetShaderiv(shader, GL_COMPILE_STATUS, &success);
 
     checkShaderError(shader, GL_COMPILE_STATUS, false, "Error compile shader");
-    return 0;
+    return shader;
 }
 
 void Shader::checkShaderError(GLuint shader, GLuint flag, bool isProgram, const string &errorMsg) {

@@ -23,32 +23,30 @@ using namespace std;
 #ifdef PROJECT_DIR_PATH
 string vertex_path = string(PROJECT_DIR_PATH) + "/base/shader_res/vertex.glsl";
 string fragment_path = string(PROJECT_DIR_PATH) + "/base/shader_res/fragment.glsl";
+string texture_path = string(PROJECT_DIR_PATH) + "/resource/image/image-jpg-640x426.jpg";
 #endif
 
 #include <mesh.h>
 #include <shader.h>
+#include <texture.h>
 
 int main() {
 
     Display display(WINDOW_DEFAULT_WIDTH,WINDOW_DEFAULT_HEIGHT,"opengl");
 
-    float  red = 0.0f;
-
     vector<Vertex> vertices = {
         Vertex(glm::vec3(-1.0f,-1.0f,0.0f)),
         Vertex(glm::vec3(-1.0f,1.0f,0.0f)),
         Vertex(glm::vec3(1.0f,1.0f,0.0f)),
-        Vertex(glm::vec3(1.0f,-1.0f,0.0f)),
     };
 
     vector<GLuint> indices = {
-            1,2,3
+            0,1,2,
     };
 
-
     Mesh mesh(vertices,indices);
-    Shader shader(vertex_path,fragment_path);
 
+    Shader shader(vertex_path,fragment_path);
 
     SDL_Event windowEvent;
     bool bQuit = false;
@@ -62,11 +60,9 @@ int main() {
                     break;
             }
         }
-        display.clear(0.0, 0.0f, 0.0f, 1.0f);
+        display.clear(1.0, 0.0f, 0.0f, 1.0f);
         shader.bind();
         mesh.Draw();
-
-//        red+= 0.005f;
         display.swapBuffers();
     }
 

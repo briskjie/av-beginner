@@ -18,10 +18,14 @@
 #define AV_BEGINNER_DISPLAY_H
 
 #include <SDL.h>
-#include <GL/glew.h>
+//#include <GL/glew.h>
 #include <log.h>
 #include <iostream>
 #include <string>
+//#include <glad_gl_3_3/glad_gl_3_3.h>
+//#include <glad/glad.h>
+#include <gl_base.h>
+
 using namespace std;
 
 class Display {
