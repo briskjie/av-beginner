@@ -1,2 +1,2 @@
 add_subdirectory(shader_01_sdl_with_opengl)
-#add_subdirectory(shader_02_sdl_opengl_draw)
+add_subdirectory(shader_02_shadertoy)

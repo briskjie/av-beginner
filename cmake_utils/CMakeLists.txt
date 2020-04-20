@@ -9,6 +9,7 @@ macro(init_path)
     set(glew_dir "/usr/local/Cellar/glew/2.1.0_1")
     set(glfw_dir "/usr/local/Cellar/glfw/3.3.2")
     set(glm_dir "/usr/local/Cellar/glm/0.9.9.5")
+    set(ffmpeg_dir "/usr/local/Cellar/ffmpeg/4.2.2_2/")
 endmacro()
 
 # ----------------  link library  ----------------
@@ -20,6 +21,7 @@ macro(link_base)
     include_directories(${base_dir}/common)
     include_directories(${base_dir}/display)
     include_directories(${base_dir}/stb)
+    include_directories(${base_dir}/shader_toy)
     include_directories(${CMAKE_SOURCE_DIR}/glad_gl_3_3/include)
 endmacro()
 
@@ -60,6 +62,11 @@ macro(link_glm)
 endmacro()
 
 
+macro(link_ffmpeg)
+    message("link ffmpeg library and path is ${ffmpeg_dir}")
+    include_directories(${ffmpeg_dir}/include/)
+    link_directories(${ffmpeg_dir}/lib/)
+endmacro()
 # ----------------  target link library  ----------------
 
 macro(target_link_base name)
@@ -86,8 +93,8 @@ endmacro()
 
 macro(target_link_sound_touch name)
     message("${name} link sound touch")
-##   target_link_libraries 直接链接 SoundTouch 出问题，加一个 find_library 就好了
-#    find_library(soundTouch SoundTouch)
+    ##   target_link_libraries 直接链接 SoundTouch 出问题，加一个 find_library 就好了
+    #    find_library(soundTouch SoundTouch)
     target_link_libraries(${name} SoundTouch)
 endmacro()
 
@@ -105,7 +112,19 @@ macro(target_link_glfw name)
             )
 endmacro()
 
-
+macro(target_link_ffmpeg name)
+    message("${name} link ffmpeg")
+    target_link_libraries(${name}
+            avformat.58
+            avcodec.58
+            avdevice.58
+            avfilter.7
+            avutil.56
+            postproc.55
+            swresample.3
+            swscale.5
+            )
+endmacro()
 
 # 需要链接系统的 OpenGL 库，不然 glew 使用会报错 symbol(s) not found for architecture x86_64
 macro(target_link_opengl name)

@@ -1,0 +1,2 @@
+add_executable(ffmpeg_02_file_info ffmpeg_file_info.cpp fileInfo.h fileInfo.cpp)
+target_link_ffmpeg(ffmpeg_02_file_info)

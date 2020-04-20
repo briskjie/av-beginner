@@ -1,1 +1,4 @@
-#add_subdirectory(ffmpeg_01_init)
+add_subdirectory(ffmpeg_00_run_ffplay)
+add_subdirectory(ffmpeg_01_print_log)
+add_subdirectory(ffmpeg_02_file_info)
+

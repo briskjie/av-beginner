@@ -35,10 +35,10 @@ int main() {
     Display display(WINDOW_DEFAULT_WIDTH,WINDOW_DEFAULT_HEIGHT,"opengl");
 
     vector<Vertex> vertices = {
-        Vertex(glm::vec3(-1.0f,-1.0f,0.0f),glm::vec2(0.0f,0.0f)),
-        Vertex(glm::vec3(-1.0f,1.0f,0.0f),glm::vec2(0.0f,1.0f)),
-        Vertex(glm::vec3(1.0f,1.0f,0.0f),glm::vec2(1.0f,1.0f)),
-        Vertex(glm::vec3(1.0f,-1.0f,0.0f),glm::vec2(1.0f,0.0f))
+            Vertex(glm::vec3(-1.0f,-1.0f,0.0f),glm::vec2(0.0f,0.0f)),
+            Vertex(glm::vec3(-1.0f,1.0f,0.0f),glm::vec2(0.0f,1.0f)),
+            Vertex(glm::vec3(1.0f,1.0f,0.0f),glm::vec2(1.0f,1.0f)),
+            Vertex(glm::vec3(1.0f,-1.0f,0.0f),glm::vec2(1.0f,0.0f))
     };
 
     vector<GLuint> indices = {

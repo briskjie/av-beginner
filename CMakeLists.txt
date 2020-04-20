@@ -15,6 +15,7 @@ link_sound_touch()
 link_glew()
 link_glfw()
 link_glm()
+link_ffmpeg()
 
 add_subdirectory(base)
 add_subdirectory(sdl_tutorial)

@@ -14,23 +14,35 @@
 * limitations under the License.
 */
 
-
 #include <iostream>
-#include <vector>
+
 using namespace std;
 
-#include <unordered_map>
+extern "C"{
+#include <libavformat/avformat.h>
+#include <libavutil/log.h>
+}
 
-int main() {
+#include <log.h>
 
-    cout << "this is c++ playground for you ~~~\n";
+void log_callback(void* ptr, int level, const char* fmt, va_list vaList){
+    logging(fmt,vaList);
+}
 
-    unordered_map<int,int> dd;
+int main(){
 
-    auto i = dd.find(1);
+    cout << "version : " << avcodec_version() << endl;
 
-    if (i == dd.end()){
-        cout << "is null";
-    }
+    // 设置日志打印级别
+    av_log_set_level(AV_LOG_INFO);
+
+    // 打印日志
+    av_log(nullptr,AV_LOG_INFO,"print ffmpeg log\n");
+
+    av_log_set_callback(log_callback);
+
+    av_log(nullptr,AV_LOG_INFO,"print log by callback\n");
+
+
     return 0;
 }

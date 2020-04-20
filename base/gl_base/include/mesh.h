@@ -31,10 +31,14 @@ public:
         this->Position = pos;
     }
 
+    Vertex(const glm::vec3 & pos,const glm::vec2 & texture){
+        this->Position = pos;
+        this->TexCoords = texture;
+    }
 //private:
     glm::vec3 Position;
 //    glm::vec3 Normal;
-//    glm::vec2 TexCoords;
+    glm::vec2 TexCoords;
 };
 
 class Mesh {

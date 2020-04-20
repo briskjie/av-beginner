@@ -14,23 +14,12 @@
 * limitations under the License.
 */
 
+#include "fileInfo.h"
 
-#include <iostream>
-#include <vector>
-using namespace std;
+FileInfo::FileInfo(const char *path) {
+    
+}
 
-#include <unordered_map>
+FileInfo::~FileInfo() {
 
-int main() {
-
-    cout << "this is c++ playground for you ~~~\n";
-
-    unordered_map<int,int> dd;
-
-    auto i = dd.find(1);
-
-    if (i == dd.end()){
-        cout << "is null";
-    }
-    return 0;
 }

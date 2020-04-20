@@ -28,14 +28,15 @@ using namespace std;
     printf("av-beginner [%s:%d]: " format "\n",__FUNCTION__, __LINE__,##__VA_ARGS__);             \
 }
 //
-//static void logging(const char *fmt, ...)
-//{
-//    va_list args;
-//    fprintf( stderr, "LOG: " );
-//    va_start( args, fmt );
-//    vfprintf( stderr, fmt, args );
-//    va_end( args );
-//    fprintf( stderr, "\n" );
-//}
+
+static void logging(const char *fmt, ...)
+{
+    va_list args;
+    fprintf( stdout, "av-beginner: " );
+    va_start( args, fmt );
+    vfprintf( stdout, fmt, args );
+    va_end( args );
+    fprintf( stdout, "\n" );
+}
 
 #endif //AV_BEGINNER_BASE_H

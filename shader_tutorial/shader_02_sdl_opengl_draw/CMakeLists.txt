@@ -1,6 +1,0 @@
-add_executable(shader_02_sdl_opengl_draw sdl_opengl_draw.cpp)
-
-
-target_link_sdl(shader_02_sdl_opengl_draw)
-target_link_glew(shader_02_sdl_opengl_draw)
-target_link_opengl(shader_02_sdl_opengl_draw)

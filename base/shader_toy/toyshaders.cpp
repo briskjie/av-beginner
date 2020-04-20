@@ -14,23 +14,6 @@
 * limitations under the License.
 */
 
+#include "toyshaders.h"
 
-#include <iostream>
-#include <vector>
-using namespace std;
-
-#include <unordered_map>
-
-int main() {
-
-    cout << "this is c++ playground for you ~~~\n";
-
-    unordered_map<int,int> dd;
-
-    auto i = dd.find(1);
-
-    if (i == dd.end()){
-        cout << "is null";
-    }
-    return 0;
-}
+const string toy_vertex_shader = "#version 330 core\n";

@@ -1,0 +1,4 @@
+add_executable(shader_02_sdl_shadertoy shadertoy.cpp)
+
+target_link_sdl(shader_02_sdl_shadertoy)
+target_link_base(shader_02_sdl_shadertoy)

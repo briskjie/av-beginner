@@ -14,23 +14,21 @@
 * limitations under the License.
 */
 
+#ifndef AV_BEGINNER_TOYSHADERS_H
+#define AV_BEGINNER_TOYSHADERS_H
 
+#include <string>
 #include <iostream>
-#include <vector>
+
 using namespace std;
 
-#include <unordered_map>
+class toy_shaders {
 
-int main() {
+};
 
-    cout << "this is c++ playground for you ~~~\n";
+extern const string toy_vertex_shader;
+extern const string toy_fragment_header_shader;
+extern const string toy_fragment_footer_shader;
 
-    unordered_map<int,int> dd;
 
-    auto i = dd.find(1);
-
-    if (i == dd.end()){
-        cout << "is null";
-    }
-    return 0;
-}
+#endif //AV_BEGINNER_TOYSHADERS_H

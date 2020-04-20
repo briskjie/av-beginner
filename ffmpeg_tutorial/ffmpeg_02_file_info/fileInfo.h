@@ -14,23 +14,26 @@
 * limitations under the License.
 */
 
+#ifndef AV_BEGINNER_FILEINFO_H
+#define AV_BEGINNER_FILEINFO_H
 
-#include <iostream>
-#include <vector>
-using namespace std;
-
-#include <unordered_map>
-
-int main() {
-
-    cout << "this is c++ playground for you ~~~\n";
-
-    unordered_map<int,int> dd;
-
-    auto i = dd.find(1);
-
-    if (i == dd.end()){
-        cout << "is null";
-    }
-    return 0;
+extern "C"{
+#include <libavformat/avformat.h>
+#include <libavutil/log.h>
 }
+
+class FileInfo {
+
+public:
+
+    FileInfo(const char *path);
+
+    ~FileInfo();
+
+private:
+    int width,height;
+
+};
+
+
+#endif //AV_BEGINNER_FILEINFO_H
