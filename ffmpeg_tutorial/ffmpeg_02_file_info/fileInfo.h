@@ -22,17 +22,26 @@ extern "C"{
 #include <libavutil/log.h>
 }
 
+#include <iostream>
+#include <log.h>
+
+using namespace std;
+
 class FileInfo {
 
 public:
 
-    FileInfo(const char *path);
+    FileInfo(const string path);
+
+    int prepare();
 
     ~FileInfo();
 
-private:
     int width,height;
 
+private:
+    AVFormatContext* mFormatContext = nullptr;
+    string mPath;
 };
 
 

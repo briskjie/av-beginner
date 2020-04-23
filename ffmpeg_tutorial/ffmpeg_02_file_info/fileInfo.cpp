@@ -16,10 +16,16 @@
 
 #include "fileInfo.h"
 
-FileInfo::FileInfo(const char *path) {
+FileInfo::FileInfo(const string path):mPath(path) {
     
 }
 
 FileInfo::~FileInfo() {
 
+}
+
+int FileInfo::prepare() {
+    if (avformat_open_input(&mFormatContext,mPath.c_str(), nullptr, nullptr) < 0){
+        return RET_FAIL;
+    }
 }

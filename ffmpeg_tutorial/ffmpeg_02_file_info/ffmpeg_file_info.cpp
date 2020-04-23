@@ -22,8 +22,10 @@ using namespace std;
 string path = string(PROJECT_DIR_PATH) + "/resource/video/video-avi-320x320.avi";
 #endif
 
-int main(){
-    FileInfo info = FileInfo("");
+int main() {
+
+    FileInfo info = FileInfo(path.c_str());
 
 
+    return 0;
 }
