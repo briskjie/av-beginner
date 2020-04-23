@@ -15,7 +15,12 @@
 */
 
 #include "fileInfo.h"
+#include <iostream>
 
+using namespace std;
+#ifdef PROJECT_DIR_PATH
+string path = string(PROJECT_DIR_PATH) + "/resource/video/video-avi-320x320.avi";
+#endif
 
 int main(){
     FileInfo info = FileInfo("");
