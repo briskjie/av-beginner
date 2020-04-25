@@ -26,6 +26,28 @@ FileInfo::~FileInfo() {
 
 int FileInfo::prepare() {
     if (avformat_open_input(&mFormatContext,mPath.c_str(), nullptr, nullptr) < 0){
+//        av_log()
         return RET_FAIL;
     }
+
+    if (avformat_find_stream_info(mFormatContext, nullptr) < 0){
+
+    }
+}
+
+int FileInfo::openInputFile(const char *filename) {
+    int ret = RET_OK;
+    if ((ret = avformat_open_input(&mFormatContext,filename, nullptr, nullptr)) < 0){
+        av_log(NULL, AV_LOG_ERROR, "Cannot open input file\n");
+        return ret;
+    }
+
+    if((ret = avformat_find_stream_info(mFormatContext,nullptr)) < 0){
+        av_log(nullptr,AV_LOG_ERROR,"Cannot find stream information\n");
+        return ret;
+    }
+
+
+
+    return ret;
 }

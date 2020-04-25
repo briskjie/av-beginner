@@ -35,6 +35,8 @@ public:
 
     int prepare();
 
+    int openInputFile(const char *filename);
+    
     ~FileInfo();
 
     int width,height;
