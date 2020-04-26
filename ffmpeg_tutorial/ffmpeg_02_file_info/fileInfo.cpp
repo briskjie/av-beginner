@@ -16,38 +16,45 @@
 
 #include "fileInfo.h"
 
-FileInfo::FileInfo(const string path):mPath(path) {
-    
+FileInfo::FileInfo(string path) : mPath(path) {
+//    av_log_set_level(AV_LOG_INFO);
+//    av_log_set_callback(log_callback);
 }
 
 FileInfo::~FileInfo() {
 
 }
 
-int FileInfo::prepare() {
-    if (avformat_open_input(&mFormatContext,mPath.c_str(), nullptr, nullptr) < 0){
-//        av_log()
-        return RET_FAIL;
-    }
+int FileInfo::openInputFile(AVFormatContext *&fmt_ctx, const char *filename) {
 
-    if (avformat_find_stream_info(mFormatContext, nullptr) < 0){
+    fmt_ctx = avformat_alloc_context();
 
-    }
-}
-
-int FileInfo::openInputFile(const char *filename) {
     int ret = RET_OK;
-    if ((ret = avformat_open_input(&mFormatContext,filename, nullptr, nullptr)) < 0){
-        av_log(NULL, AV_LOG_ERROR, "Cannot open input file\n");
+    if ((ret = avformat_open_input(&fmt_ctx, filename, nullptr, nullptr)) < 0) {
+        logE( "Cannot open input file");
         return ret;
     }
 
-    if((ret = avformat_find_stream_info(mFormatContext,nullptr)) < 0){
-        av_log(nullptr,AV_LOG_ERROR,"Cannot find stream information\n");
+    if ((ret = avformat_find_stream_info(fmt_ctx, nullptr)) < 0) {
+        logE("Cannot find stream information");
         return ret;
     }
 
+    logI("open input file success");
 
+    av_dump_format(mFormatContext,0,filename,0);
 
     return ret;
+}
+
+void FileInfo::dumpInfo() {
+    logI("file path is %s", mFormatContext->filename);
+    logI("iformat name is %s", mFormatContext->iformat->name);
+    logI("nb_streams is %d", mFormatContext->nb_streams);
+    logI("bitrate is %lld", mFormatContext->bit_rate);
+    logI("duration is %lld", mFormatContext->duration);
+}
+
+int FileInfo::openInputFile() {
+    return openInputFile(mFormatContext, mPath.c_str());
 }

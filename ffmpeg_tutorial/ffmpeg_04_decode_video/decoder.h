@@ -14,10 +14,10 @@
 * limitations under the License.
 */
 
-#ifndef AV_BEGINNER_FILEINFO_H
-#define AV_BEGINNER_FILEINFO_H
+#ifndef AV_BEGINNER_DECODER_H
+#define AV_BEGINNER_DECODER_H
 
-extern "C"{
+extern "C" {
 #include <libavformat/avformat.h>
 }
 
@@ -26,26 +26,38 @@ extern "C"{
 
 using namespace std;
 
-class FileInfo {
+class Decoder {
 
 public:
+    Decoder(string path);
 
-    FileInfo(string path);
+    ~Decoder();
+
 
     int openInputFile();
 
+    int openCodec();
+
+    int decodeVideo();
+
     void dumpInfo();
-
-    ~FileInfo();
-
-    int width,height;
 
 private:
 
-    int openInputFile(AVFormatContext *&fmt_ctx ,const char *filename);
-    AVFormatContext* mFormatContext ;
+    AVFormatContext *mFormatContext;
+    AVCodecContext *mVideoDecContext = nullptr, *mAudioDecContext = nullptr;
     string mPath;
+
+    int mVideoStreamIdx = -1;
+    int mAudioStreamIdx = -1;
+
+    int openInputFile(AVFormatContext *&fmt_ctx, const char *filename);
+
+    int openCodecContext(int &stream_idx, AVCodecContext *&codec_ctx,
+                         AVFormatContext *fmt_ctx, enum AVMediaType type);
+
+
 };
 
 
-#endif //AV_BEGINNER_FILEINFO_H
+#endif //AV_BEGINNER_DECODER_H

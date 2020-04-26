@@ -1,2 +1,5 @@
 add_executable(ffmpeg_01_print_log ffmpeg_print_log.cpp)
+
 target_link_ffmpeg(ffmpeg_01_print_log)
+
+target_link_ffmpeg_base(ffmpeg_01_print_log)

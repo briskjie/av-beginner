@@ -20,29 +20,45 @@ using namespace std;
 
 extern "C"{
 #include <libavformat/avformat.h>
-#include <libavutil/log.h>
 }
 
-#include <log.h>
+#include <ffmpeg_log.h>
 
-void log_callback(void* ptr, int level, const char* fmt, va_list vaList){
-    logging(fmt,vaList);
-}
+#ifdef PROJECT_DIR_PATH
+string path = string(PROJECT_DIR_PATH) + "/resource/video/video-avi-320x320.avi";
+#endif
 
 int main(){
 
-    cout << "version : " << avcodec_version() << endl;
-
     // 设置日志打印级别
-    av_log_set_level(AV_LOG_INFO);
+    av_log_set_level(AV_LOG_TRACE);
 
     // 打印日志
-    av_log(nullptr,AV_LOG_INFO,"print ffmpeg log\n");
 
+    // 自定义日志打印回调
     av_log_set_callback(log_callback);
 
-    av_log(nullptr,AV_LOG_INFO,"print log by callback\n");
+    av_log(nullptr,AV_LOG_INFO,"print ffmpeg log\n\n");
 
+
+    // 设置成默认的打印
+//    av_log_set_callback(av_log_default_callback);
+
+    av_log(nullptr,AV_LOG_INFO,"this is  INFO log color");
+    av_log(nullptr,AV_LOG_VERBOSE,"this is  VERBOSE log color");
+    av_log(nullptr,AV_LOG_DEBUG,"this is DEBUG log color");
+    av_log(nullptr,AV_LOG_WARNING,"this is WARNING log color");
+    av_log(nullptr,AV_LOG_ERROR,"this is ERROR log color");
+
+    printf("\n-----------华丽的分割线-----------\n\n");
+
+
+    log("this is macro DEFAULT log color");
+    logD("this is macro DEBUG log color");
+    logI("this is macro INFO log color");
+    logV("this is macro VERBOSE log color");
+    logW("this is macro WARNING log color");
+    logE("this is macro ERROR log color");
 
     return 0;
 }

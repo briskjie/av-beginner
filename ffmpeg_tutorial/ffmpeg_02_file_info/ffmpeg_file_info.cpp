@@ -17,6 +17,9 @@
 #include "fileInfo.h"
 #include <iostream>
 
+
+#include <ffmpeg_log.h>
+
 using namespace std;
 #ifdef PROJECT_DIR_PATH
 string path = string(PROJECT_DIR_PATH) + "/resource/video/video-avi-320x320.avi";
@@ -26,6 +29,9 @@ int main() {
 
     FileInfo info = FileInfo(path.c_str());
 
+    info.openInputFile();
+
+    info.dumpInfo();
 
     return 0;
 }

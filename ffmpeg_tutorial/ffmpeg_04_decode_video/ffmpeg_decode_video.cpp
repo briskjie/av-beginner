@@ -13,39 +13,25 @@
 * See the License for the specific language governing permissions and
 * limitations under the License.
 */
-
-#ifndef AV_BEGINNER_FILEINFO_H
-#define AV_BEGINNER_FILEINFO_H
-
-extern "C"{
-#include <libavformat/avformat.h>
-}
-
+#include "decoder.h"
 #include <iostream>
+
 #include <ffmpeg_log.h>
 
 using namespace std;
-
-class FileInfo {
-
-public:
-
-    FileInfo(string path);
-
-    int openInputFile();
-
-    void dumpInfo();
-
-    ~FileInfo();
-
-    int width,height;
-
-private:
-
-    int openInputFile(AVFormatContext *&fmt_ctx ,const char *filename);
-    AVFormatContext* mFormatContext ;
-    string mPath;
-};
+#ifdef PROJECT_DIR_PATH
+string path = string(PROJECT_DIR_PATH) + "/resource/video/video-avi-320x320.avi";
+#endif
 
 
-#endif //AV_BEGINNER_FILEINFO_H
+int main(){
+
+    Decoder decoder = Decoder(path);
+    decoder.openInputFile();
+    decoder.openCodec();
+    decoder.dumpInfo();
+
+    decoder.decodeVideo();
+
+    return 0;
+}
