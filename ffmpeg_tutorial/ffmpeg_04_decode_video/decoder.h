@@ -23,6 +23,7 @@ extern "C" {
 
 #include <iostream>
 #include <ffmpeg_log.h>
+#include "decode_write.h"
 
 using namespace std;
 
@@ -48,15 +49,20 @@ private:
     AVCodecContext *mVideoDecContext = nullptr, *mAudioDecContext = nullptr;
     string mPath;
 
+    AVPacket *videoPacket;
+    AVFrame *videoFrame;
+
     int mVideoStreamIdx = -1;
     int mAudioStreamIdx = -1;
 
     int openInputFile(AVFormatContext *&fmt_ctx, const char *filename);
 
-    int openCodecContext(int &stream_idx, AVCodecContext *&codec_ctx,
+    int openCodecContext(int *stream_idx, AVCodecContext **codec_ctx,
                          AVFormatContext *fmt_ctx, enum AVMediaType type);
 
+    int startDecodeVideo(AVFormatContext **fmt_ctx,AVCodecContext **codec_ctx,AVPacket **packet,AVFrame **frame,int videoIndex);
 
+    int decode(AVCodecContext *codec_ctx,AVPacket *packet,AVFrame *frame,std::function<void(void*,int)>);
 };
 
 

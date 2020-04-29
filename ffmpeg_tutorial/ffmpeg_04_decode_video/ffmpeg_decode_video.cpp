@@ -20,7 +20,7 @@
 
 using namespace std;
 #ifdef PROJECT_DIR_PATH
-string path = string(PROJECT_DIR_PATH) + "/resource/video/video-avi-320x320.avi";
+string path = string(PROJECT_DIR_PATH) + "/resource/video/video-mp4-640x360.mp4";
 #endif
 
 
