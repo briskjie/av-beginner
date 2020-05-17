@@ -22,7 +22,8 @@ FileInfo::FileInfo(string path) : mPath(path) {
 }
 
 FileInfo::~FileInfo() {
-
+    avformat_close_input(&mFormatContext);
+    avformat_free_context(mFormatContext);
 }
 
 int FileInfo::openInputFile(AVFormatContext *&fmt_ctx, const char *filename) {
@@ -42,6 +43,7 @@ int FileInfo::openInputFile(AVFormatContext *&fmt_ctx, const char *filename) {
 
     logI("open input file success");
 
+    // 打印流信息
     av_dump_format(mFormatContext,0,filename,0);
 
     return ret;
@@ -53,6 +55,7 @@ void FileInfo::dumpInfo() {
     logI("nb_streams is %d", mFormatContext->nb_streams);
     logI("bitrate is %lld", mFormatContext->bit_rate);
     logI("duration is %lld", mFormatContext->duration);
+    logI("start time is %lld",mFormatContext->start_time);
 }
 
 int FileInfo::openInputFile() {

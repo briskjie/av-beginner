@@ -14,26 +14,4 @@
 * limitations under the License.
 */
 
-#include "fileInfo.h"
-#include <iostream>
-
-
-#include <ffmpeg_log.h>
-
-using namespace std;
-#ifdef PROJECT_DIR_PATH
-string path = string(PROJECT_DIR_PATH) + "/resource/video/video-avi-320x320.avi";
-#endif
-
-int main() {
-
-    FileInfo * info = new FileInfo(path.c_str());
-
-    info->openInputFile();
-
-    info->dumpInfo();
-
-    delete info;
-
-    return 0;
-}
+#include "frameQueue.h"

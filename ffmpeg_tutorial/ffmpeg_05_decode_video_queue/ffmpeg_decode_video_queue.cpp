@@ -13,27 +13,22 @@
 * See the License for the specific language governing permissions and
 * limitations under the License.
 */
-
-#include "fileInfo.h"
 #include <iostream>
-
+#include "decoder.h"
 
 #include <ffmpeg_log.h>
 
 using namespace std;
 #ifdef PROJECT_DIR_PATH
-string path = string(PROJECT_DIR_PATH) + "/resource/video/video-avi-320x320.avi";
+string path = string(PROJECT_DIR_PATH) + "/resource/video/video-mp4-640x360.mp4";
 #endif
 
-int main() {
+int main(){
 
-    FileInfo * info = new FileInfo(path.c_str());
+    Decoder decoder = Decoder(path);
+    decoder.openInputFile();
+    decoder.openCodec();
+    decoder.dumpInfo();
 
-    info->openInputFile();
-
-    info->dumpInfo();
-
-    delete info;
-
-    return 0;
+    decoder.decodeVideo();
 }

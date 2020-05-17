@@ -12,5 +12,6 @@ add_subdirectory(ffmpeg_00_run_ffplay)
 add_subdirectory(ffmpeg_01_print_log)
 add_subdirectory(ffmpeg_02_file_info)
 add_subdirectory(ffmpeg_03_open_codec)
-add_subdirectory(ffmpeg_04_decode_video)
+#add_subdirectory(ffmpeg_04_decode_video)
+add_subdirectory(ffmpeg_05_decode_video_queue)
 

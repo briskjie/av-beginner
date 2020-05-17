@@ -14,26 +14,13 @@
 * limitations under the License.
 */
 
-#include "fileInfo.h"
-#include <iostream>
+#ifndef AV_BEGINNER_FRAMEQUEUE_H
+#define AV_BEGINNER_FRAMEQUEUE_H
 
 
-#include <ffmpeg_log.h>
+class FrameQueue {
 
-using namespace std;
-#ifdef PROJECT_DIR_PATH
-string path = string(PROJECT_DIR_PATH) + "/resource/video/video-avi-320x320.avi";
-#endif
+};
 
-int main() {
 
-    FileInfo * info = new FileInfo(path.c_str());
-
-    info->openInputFile();
-
-    info->dumpInfo();
-
-    delete info;
-
-    return 0;
-}
+#endif //AV_BEGINNER_FRAMEQUEUE_H

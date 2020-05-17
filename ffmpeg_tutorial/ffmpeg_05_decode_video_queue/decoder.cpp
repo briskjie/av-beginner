@@ -15,8 +15,6 @@
 */
 
 #include "decoder.h"
-#include "../ffmpeg_05_decode_video_queue/decoder.h"
-
 
 Decoder::Decoder(string path) : mPath(path) {
 
@@ -125,12 +123,12 @@ int Decoder::startDecodeVideo(AVFormatContext **fmt_ctx, AVCodecContext **codec_
     while (av_read_frame(*fmt_ctx, *packet) == 0) {
         if ((*packet)->stream_index == videoIndex){
             // 解码保存成 yuv 文件
-            decode(mVideoDecContext,*packet,*frame,yuv_save);
+            decode(mVideoDecContext,*packet,*frame);
             // 解码保存成 pgm 文件
 //            decode(mVideoDecContext,*packet,*frame,pgm_save);
         }
     }
-    decode(mVideoDecContext,*packet,*frame,yuv_save);
+    decode(mVideoDecContext,*packet,*frame);
 //    decode(mVideoDecContext,*packet,*frame,pgm_save);
     return 0;
 }
@@ -155,5 +153,11 @@ int Decoder::decode(AVCodecContext *codec_ctx, AVPacket *packet, AVFrame *frame,
             func(frame,codec_ctx->frame_number);
         }
     }
+    return 0;
+}
+
+
+int Decoder::startDecodeThread() {
+
     return 0;
 }
