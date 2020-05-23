@@ -62,7 +62,7 @@ private:
 
     int startDecodeVideo(AVFormatContext **fmt_ctx,AVCodecContext **codec_ctx,AVPacket **packet,AVFrame **frame,int videoIndex);
 
-    int decode(AVCodecContext *codec_ctx,AVPacket *packet,AVFrame *frame,std::function<void(void*,int)>);
+    int decode(AVCodecContext *codec_ctx,AVPacket *packet,AVFrame *frame,std::function<void(void*,int)> = nullptr);
 };
 
 

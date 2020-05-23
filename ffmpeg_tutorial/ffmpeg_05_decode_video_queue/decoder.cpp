@@ -16,8 +16,109 @@
 
 #include "decoder.h"
 
-Decoder::Decoder(string path) : mPath(path) {
+//static std::function<void(void *, int)> pgm_save = [](void *frame, int num) {
+//    AVFrame *avFrame = static_cast<AVFrame *>(frame);
+//    char single_frame_path[1024];
+//    sprintf(single_frame_path, "%s-%d.pgm", pgm_path.c_str(), num);
+//
+//    FILE *f;
+//    f = fopen(single_frame_path, "wb+");
+//    fprintf(f, "P5\n%d %d\n%d\n", avFrame->width, avFrame->height, 255);
+//
+//    for (int i = 0; i < avFrame->height; ++i) {
+//        fwrite(avFrame->data[0] + i * avFrame->linesize[0], 1, avFrame->width, f);
+//    }
+//    fclose(f);
+//    log("success write %d frame to pgm file",num);
+//};
 
+
+static bool send(AVCodecContext *codec_context,AVPacket *packet){
+    auto ret = avcodec_send_packet(codec_context,packet);
+    return !(ret == AVERROR(EAGAIN) || ret == AVERROR_EOF);
+}
+
+static bool receive(AVCodecContext *codec_context,AVFrame* frame){
+    auto ret = avcodec_receive_frame(codec_context,frame);
+    return !(ret == AVERROR(EAGAIN) || ret == AVERROR_EOF);
+}
+
+static void decode_thread(Decoder *decoder){
+    log("this is decode thread\n");
+
+    int count = 0;
+    for(;;){
+
+        std::unique_ptr<AVPacket,std::function<void(AVPacket*)>> packet{
+            new AVPacket,[](AVPacket*p){
+                av_packet_unref(p);
+                delete p;
+            }
+        };
+
+        av_init_packet(packet.get());
+
+        packet->data = nullptr;
+
+        int ret = av_read_frame(decoder->mFormatContext,packet.get());
+        if(ret < 0){
+            decoder->packetQueue->finished();
+            log("finish and ret is %d",ret);
+            break;
+        }
+
+        log("ret is %d and stream index is %d and video index is %d",ret,packet->stream_index,decoder->mVideoStreamIdx);
+
+        if (packet->stream_index == decoder->mVideoStreamIdx){
+            count ++;
+        }
+
+        if (packet->stream_index == decoder->mVideoStreamIdx){
+            if(!decoder->packetQueue->push(move(packet))){
+                log("push packet");
+                break;
+            }
+        }
+
+        log("video count is %d",count);
+    }
+
+    log("finish decode thread");
+}
+
+static void read_thread(Decoder *decoder){
+    log("this is read thread\n");
+
+    std::function<void(void*,int)> save = yuv_save;
+
+    for(;;){
+        std::unique_ptr<AVFrame,std::function<void(AVFrame*)>> frame_decoded{
+            av_frame_alloc(),[](AVFrame *f){av_frame_free(&f);}
+        };
+
+        std::unique_ptr<AVPacket,std::function<void(AVPacket *)>> packet {
+                nullptr,[](AVPacket *p){av_packet_unref(p);delete p;}
+        };
+
+        if(!decoder->packetQueue->pop(packet)){
+            break;
+        }
+
+        bool sent = false;
+        while (!sent){
+
+            sent = send(decoder->mVideoDecContext,packet.get());
+
+            while (receive(decoder->mVideoDecContext,frame_decoded.get())){
+                save(frame_decoded.get(),decoder->mVideoDecContext->frame_number);
+            }
+        }
+    }
+    log("finish read thread");
+}
+
+Decoder::Decoder(string path) : mPath(path) {
+    packetQueue = make_unique<PacketQueue>(2000);
 }
 
 
@@ -122,14 +223,12 @@ int Decoder::startDecodeVideo(AVFormatContext **fmt_ctx, AVCodecContext **codec_
 
     while (av_read_frame(*fmt_ctx, *packet) == 0) {
         if ((*packet)->stream_index == videoIndex){
-            // 解码保存成 yuv 文件
             decode(mVideoDecContext,*packet,*frame);
-            // 解码保存成 pgm 文件
-//            decode(mVideoDecContext,*packet,*frame,pgm_save);
         }
+        // 没有这一行会有 Invalid NAL unit size (65536 > 60) 错误
+        av_packet_unref(*packet);
     }
     decode(mVideoDecContext,*packet,*frame);
-//    decode(mVideoDecContext,*packet,*frame,pgm_save);
     return 0;
 }
 
@@ -158,6 +257,18 @@ int Decoder::decode(AVCodecContext *codec_ctx, AVPacket *packet, AVFrame *frame,
 
 
 int Decoder::startDecodeThread() {
+
+    thread decodeThread(decode_thread,this);
+
+    decodeThread.join();
+
+    log("finish decode");
+
+    thread readThread(read_thread,this);
+
+    readThread.join();
+
+    log("finish read");
 
     return 0;
 }

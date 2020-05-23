@@ -83,41 +83,42 @@ bool Queue<T>::push(T &&data) {
     return false;
 }
 
-    return false;
-    template <class T>
-    bool Queue<T>::pop(T &data) {
-        std::unique_lock<std::mutex> lock(mutex_);
+template<class T>
+bool Queue<T>::pop(T &data) {
+    std::unique_lock<std::mutex> lock(mutex_);
 
-        while (!quit_){
-            if (!queue_.empty()){
-                data = std::move(queue_.front());
-                queue_.pop();
-                full_.notify_all();
-                return true;
-            }else if (queue_.empty() && finished_){
-                return false;
-            }else{
-                empty_.wait(lock);
-            }
+    while (!quit_) {
+        if (!queue_.empty()) {
+            data = std::move(queue_.front());
+            queue_.pop();
+            full_.notify_all();
+            return true;
+        } else if (queue_.empty() && finished_) {
+            return false;
+        } else {
+            empty_.wait(lock);
         }
-
     }
+    return false;
+}
 
 
-template <class T>
+template<class T>
 void Queue<T>::finished() {
     finished_ = true;
     empty_.notify_all();
 }
 
-template <class T>
+template<class T>
 void Queue<T>::quit() {
     quit_ = true;
     empty_.notify_all();
     full_.notify_all();
 }
 
-
-
+template<typename T, typename... Ts>
+std::unique_ptr<T> make_unique(Ts&&... params){
+    return std::unique_ptr<T>(new T(std::forward<Ts>(params)...));
+}
 
 #endif //AV_BEGINNER_QUEUE_H

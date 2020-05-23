@@ -125,12 +125,14 @@ int Decoder::startDecodeVideo(AVFormatContext **fmt_ctx, AVCodecContext **codec_
     while (av_read_frame(*fmt_ctx, *packet) == 0) {
         if ((*packet)->stream_index == videoIndex){
             // 解码保存成 yuv 文件
-            decode(mVideoDecContext,*packet,*frame,yuv_save);
+//            decode(mVideoDecContext,*packet,*frame,yuv_save);
             // 解码保存成 pgm 文件
-//            decode(mVideoDecContext,*packet,*frame,pgm_save);
+            decode(mVideoDecContext,*packet,*frame,pgm_save);
         }
+        av_packet_unref(*packet);
     }
-    decode(mVideoDecContext,*packet,*frame,yuv_save);
+    log("flush decoder\n");
+//    decode(mVideoDecContext,*packet,*frame,yuv_save);
 //    decode(mVideoDecContext,*packet,*frame,pgm_save);
     return 0;
 }

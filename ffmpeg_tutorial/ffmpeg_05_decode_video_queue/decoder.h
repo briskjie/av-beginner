@@ -24,6 +24,9 @@ extern "C" {
 #include <iostream>
 #include <ffmpeg_log.h>
 #include "queue.h"
+#include <thread>
+#include <memory>
+#include "avframe_write.h"
 
 using namespace std;
 
@@ -45,7 +48,7 @@ public:
 
     int startDecodeThread();
 
-private:
+    int startReadThread();
 
     AVFormatContext *mFormatContext;
     AVCodecContext *mVideoDecContext = nullptr, *mAudioDecContext = nullptr;
@@ -54,8 +57,12 @@ private:
     AVPacket *videoPacket;
     AVFrame *videoFrame;
 
+    unique_ptr<PacketQueue> packetQueue ;
+
+
     int mVideoStreamIdx = -1;
     int mAudioStreamIdx = -1;
+private:
 
     int openInputFile(AVFormatContext *&fmt_ctx, const char *filename);
 

@@ -25,10 +25,13 @@ string path = string(PROJECT_DIR_PATH) + "/resource/video/video-mp4-640x360.mp4"
 
 int main(){
 
-    Decoder decoder = Decoder(path);
+    Decoder decoder(path);
     decoder.openInputFile();
     decoder.openCodec();
     decoder.dumpInfo();
 
-    decoder.decodeVideo();
+//    decoder.decodeVideo();
+
+    decoder.startDecodeThread();
+
 }

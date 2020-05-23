@@ -1,7 +1,7 @@
 add_executable(ffmpeg_05_decode_video_queue
         ffmpeg_decode_video_queue.cpp
         decoder.cpp
-        frameQueue.cpp)
+        )
 
 link_directories(./)
 
