@@ -16,7 +16,6 @@
 #include <iostream>
 #include "decoder.h"
 
-#include <ffmpeg_log.h>
 
 using namespace std;
 #ifdef PROJECT_DIR_PATH
@@ -25,13 +24,12 @@ string path = string(PROJECT_DIR_PATH) + "/resource/video/video-mp4-640x360.mp4"
 
 int main(){
 
-    Decoder decoder(path);
-    decoder.openInputFile();
-    decoder.openCodec();
-    decoder.dumpInfo();
+    shared_ptr<Decoder> decoder = make_shared<Decoder>(path);
+    decoder->openInputFile();
+    decoder->openCodec();
+    decoder->dumpInfo();
 
-//    decoder.decodeVideo();
+    decoder->startDecodeThread();
 
-    decoder.startDecodeThread();
-
+    return 0;
 }

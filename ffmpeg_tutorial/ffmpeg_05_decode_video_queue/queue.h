@@ -48,6 +48,8 @@ public:
 
     Queue(const size_t size_max);
 
+    ~Queue();
+
     bool push(T &&data);
 
     bool pop(T &data);
@@ -55,6 +57,8 @@ public:
     void finished();
 
     void quit();
+
+    int count();
 };
 
 
@@ -66,6 +70,12 @@ Queue<T>::Queue(size_t size_max):
         size_max_{size_max} {
 
 }
+
+template<class T>
+Queue<T>::~Queue(){
+    log("delete queue");
+}
+
 
 template<class T>
 bool Queue<T>::push(T &&data) {
@@ -114,6 +124,11 @@ void Queue<T>::quit() {
     quit_ = true;
     empty_.notify_all();
     full_.notify_all();
+}
+
+template<class T>
+int Queue<T>::count(){
+    return queue_.size();
 }
 
 template<typename T, typename... Ts>
