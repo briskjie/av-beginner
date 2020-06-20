@@ -129,11 +129,15 @@ int Decoder::startDecodeVideo(AVFormatContext **fmt_ctx, AVCodecContext **codec_
             // 解码保存成 pgm 文件
             decode(mVideoDecContext,*packet,*frame,pgm_save);
         }
+        // 引用计数减一，释放掉 AVPacket 中 Buffer 的内存
+        // 如果没有调用这个，导致 flush decoder 时 Buffer 信息情况
+        // 会报  Invalid NAL unit size (65536 > 60). 错误
+        // 并且有内存泄漏的隐患
         av_packet_unref(*packet);
     }
     log("flush decoder\n");
 //    decode(mVideoDecContext,*packet,*frame,yuv_save);
-//    decode(mVideoDecContext,*packet,*frame,pgm_save);
+    decode(mVideoDecContext,*packet,*frame,pgm_save);
     return 0;
 }
 
@@ -145,6 +149,9 @@ int Decoder::decode(AVCodecContext *codec_ctx, AVPacket *packet, AVFrame *frame,
         return RET_FAIL;
     }
 
+    // 此处的 while 循环，会不断接收 avcodec_receive_frame 返回解码后的 AVFrame 内容
+    // 直到 ret 等于 EAGAIN 或者 AVERROR_EOF
+    // 保证解码结束
     while (ret >= 0){
         ret = avcodec_receive_frame(codec_ctx,frame);
         if (ret == AVERROR(EAGAIN) || ret == AVERROR_EOF){
