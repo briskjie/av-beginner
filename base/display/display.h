@@ -14,7 +14,7 @@
 * limitations under the License.
 */
 
-#ifndef AV_BEGINNER_DISPLAY_H
+#ifndef AV_BEGINNER_DISPLAY__H
 #define AV_BEGINNER_DISPLAY_H
 
 #include <SDL.h>
@@ -63,4 +63,4 @@ private:
 };
 
 
-#endif //AV_BEGINNER_DISPLAY_H
+#endif //AV_BEGINNER_DISPLAY__H
