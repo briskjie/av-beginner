@@ -2,6 +2,7 @@ add_executable(ffmpeg_06_decode_video_render
         ffmpeg_decode_video_queue.cpp
         decoder.cpp
         display_.cpp
+        SDLWrapper.cpp
         )
 
 link_directories(./)
