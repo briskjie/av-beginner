@@ -72,11 +72,6 @@ static void decode_thread(Decoder *decoder) {
 
 static void read_thread(Decoder *decoder) {
     log("this is read thread\n");
-//    SDL_CreateWindow("player", SDL_WINDOWPOS_UNDEFINED, SDL_WINDOWPOS_UNDEFINED,
-//                     decoder->mWidth, decoder->mHeight,
-//                     SDL_WINDOW_SHOWN | SDL_WINDOW_RESIZABLE);
-
-//    decoder->display = new Display(decoder->mWidth, decoder->mHeight);
 
     std::function<void(void *, int)> save = pgm_save;
 
@@ -108,17 +103,6 @@ static void read_thread(Decoder *decoder) {
             sent = send(decoder->mVideoDecContext, packet.get());
 
             while (receive(decoder->mVideoDecContext, frame_decoded.get())) {
-//
-//                decoder->display->refresh({
-//                                                  frame_decoded->data[0],
-//                                                  frame_decoded->data[1],
-//                                                  frame_decoded->data[2]},
-//                                          {
-//                                                  static_cast<size_t>(frame_decoded->linesize[0]),
-//                                                  static_cast<size_t>(frame_decoded->linesize[1]),
-//                                                  static_cast<size_t>(frame_decoded->linesize[2])}
-//
-//                );
                 save(frame_decoded.get(), decoder->mVideoDecContext->frame_number);
             }
         }
@@ -242,28 +226,7 @@ int Decoder::startDecodeThread() {
     thread decodeThread(decode_thread, this);
 
     decodeThread.join();
-//
-//    swsContext = sws_getContext(
-//            mVideoDecContext->width,
-//            mVideoDecContext->height,
-//            mVideoDecContext->pix_fmt,
-//            mVideoDecContext->width,
-//            mVideoDecContext->height,
-//            AV_PIX_FMT_YUV420P,
-//            SWS_POINT,
-//            nullptr,
-//            nullptr,
-//            nullptr
-//    );
 
-    log("finish decode and pix_fmt is %d",mVideoDecContext->pix_fmt);
-
-//    // 读取内容并保存
-//    thread readThread(read_thread, this);
-//
-//    readThread.join();
-
-    log("finish read");
 
     return 0;
 }

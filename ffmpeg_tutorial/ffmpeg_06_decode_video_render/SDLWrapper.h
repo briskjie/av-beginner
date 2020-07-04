@@ -6,6 +6,7 @@
 #define FFMPEG_MAC_CLION_SDLWRAPPER_H
 
 #include <SDL.h>
+#include <array>
 
 class SDLWrapper {
 
@@ -25,6 +26,8 @@ public:
     SDL_Renderer *sdl_renderer;
     SDL_Texture *sdl_texture;
     SDL_Window *sdl_window;
+
+    void refresh(std::array<uint8_t *,3> planes,std::array<size_t,3> pitches);
 
     void destroyWindow();
     void destroyTexture();

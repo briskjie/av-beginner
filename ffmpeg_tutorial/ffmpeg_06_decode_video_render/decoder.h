@@ -59,7 +59,7 @@ public:
     int mVideoStreamIdx = -1;
     int mAudioStreamIdx = -1;
 
-    Display *display;
+//    Display *display;
 
     int mWidth = 0;
     int mHeight = 0;

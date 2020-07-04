@@ -54,9 +54,9 @@ Display::Display(const unsigned int width, const unsigned int height) :
     log("init display");
 //    SDL_SetHint(SDL_HINT_RENDER_SCALE_QUALITY, "linear");
 //    SDL_RenderSetLogicalSize(renderer_.get(), width, height);
-    SDL_SetRenderDrawColor(renderer_.get(), 0, 0, 0, 255);
-    SDL_RenderClear(renderer_.get());
-    SDL_RenderPresent(renderer_.get());
+    SDL_SetRenderDrawColor(renderer_.get(), 255, 0, 0, 255);
+//    SDL_RenderClear(renderer_.get());
+//    SDL_RenderPresent(renderer_.get());
 }
 
 void Display::refresh(std::array<uint8_t *, 3> planes, std::array<size_t, 3> pitches) {

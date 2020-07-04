@@ -37,3 +37,15 @@ void SDLWrapper::quit() {
     SDL_Quit();
 }
 
+void SDLWrapper::refresh(std::array<uint8_t *, 3> planes, std::array<size_t, 3> pitches) {
+
+    SDL_UpdateYUVTexture(sdl_texture, nullptr,
+                         planes[0], pitches[0],
+                         planes[1], pitches[1],
+                         planes[2], pitches[2]);
+
+    SDL_RenderClear(sdl_renderer);
+    SDL_RenderCopy(sdl_renderer, sdl_texture, nullptr, nullptr);
+    SDL_RenderPresent(sdl_renderer);
+}
+
