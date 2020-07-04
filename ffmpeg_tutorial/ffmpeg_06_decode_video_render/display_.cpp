@@ -60,10 +60,10 @@ Display::Display(const unsigned int width, const unsigned int height) :
 }
 
 void Display::refresh(std::array<uint8_t *, 3> planes, std::array<size_t, 3> pitches) {
-//    check_SDL(SDL_UpdateYUVTexture(texture_.get(), nullptr,
-//                                    planes[0], pitches[0],
-//                                    planes[1], pitches[1],
-//                                    planes[2], pitches[2]), "texture update");
+    check_SDL(SDL_UpdateYUVTexture(texture_.get(), nullptr,
+                                    planes[0], pitches[0],
+                                    planes[1], pitches[1],
+                                    planes[2], pitches[2]), "texture update");
 
     log("start refresh");
 //    SDL_UpdateYUVTexture(texture_.get(), nullptr,

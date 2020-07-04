@@ -72,40 +72,42 @@ static void decode_thread(Decoder *decoder) {
 
 static void read_thread(Decoder *decoder) {
     log("this is read thread\n");
-    SDL_CreateWindow("player", SDL_WINDOWPOS_UNDEFINED, SDL_WINDOWPOS_UNDEFINED,
-                     decoder->mWidth, decoder->mHeight,
-                     SDL_WINDOW_SHOWN | SDL_WINDOW_RESIZABLE);
+//    SDL_CreateWindow("player", SDL_WINDOWPOS_UNDEFINED, SDL_WINDOWPOS_UNDEFINED,
+//                     decoder->mWidth, decoder->mHeight,
+//                     SDL_WINDOW_SHOWN | SDL_WINDOW_RESIZABLE);
 
 //    decoder->display = new Display(decoder->mWidth, decoder->mHeight);
 
-//    for (;;) {
-//        std::unique_ptr<AVFrame, std::function<void(AVFrame *)>> frame_decoded{
-//                av_frame_alloc(), [](AVFrame *f) {
-//                    av_frame_unref(f);
-//                    av_frame_free(&f);
-//                    log("delete frame in read thread");
-//                }
-//        };
-//
-//        std::unique_ptr<AVPacket, std::function<void(AVPacket *)>> packet{
-//                nullptr, [](AVPacket *p) {
-//                    av_packet_unref(p);
-//                    av_packet_free(&p);
-//                    log("delete packet in read thread");
-//                }
-//        };
-//
-//        log("pop packet");
-//        if (!decoder->packetQueue->pop(packet)) {
-//            break;
-//        }
-//
-//        bool sent = false;
-//        while (!sent) {
-//
-//            sent = send(decoder->mVideoDecContext, packet.get());
-//
-//            while (receive(decoder->mVideoDecContext, frame_decoded.get())) {
+    std::function<void(void *, int)> save = pgm_save;
+
+    for (;;) {
+        std::unique_ptr<AVFrame, std::function<void(AVFrame *)>> frame_decoded{
+                av_frame_alloc(), [](AVFrame *f) {
+                    av_frame_unref(f);
+                    av_frame_free(&f);
+                    log("delete frame in read thread");
+                }
+        };
+
+        std::unique_ptr<AVPacket, std::function<void(AVPacket *)>> packet{
+                nullptr, [](AVPacket *p) {
+                    av_packet_unref(p);
+                    av_packet_free(&p);
+                    log("delete packet in read thread");
+                }
+        };
+
+        log("pop packet");
+        if (!decoder->packetQueue->pop(packet)) {
+            break;
+        }
+
+        bool sent = false;
+        while (!sent) {
+
+            sent = send(decoder->mVideoDecContext, packet.get());
+
+            while (receive(decoder->mVideoDecContext, frame_decoded.get())) {
 //
 //                decoder->display->refresh({
 //                                                  frame_decoded->data[0],
@@ -117,10 +119,10 @@ static void read_thread(Decoder *decoder) {
 //                                                  static_cast<size_t>(frame_decoded->linesize[2])}
 //
 //                );
-////                save(frame_decoded.get(), decoder->mVideoDecContext->frame_number);
-//            }
-//        }
-//    }
+                save(frame_decoded.get(), decoder->mVideoDecContext->frame_number);
+            }
+        }
+    }
     log("finish read thread");
 }
 
@@ -241,18 +243,18 @@ int Decoder::startDecodeThread() {
 
     decodeThread.join();
 //
-    swsContext = sws_getContext(
-            mVideoDecContext->width,
-            mVideoDecContext->height,
-            mVideoDecContext->pix_fmt,
-            mVideoDecContext->width,
-            mVideoDecContext->height,
-            AV_PIX_FMT_YUV420P,
-            SWS_POINT,
-            nullptr,
-            nullptr,
-            nullptr
-    );
+//    swsContext = sws_getContext(
+//            mVideoDecContext->width,
+//            mVideoDecContext->height,
+//            mVideoDecContext->pix_fmt,
+//            mVideoDecContext->width,
+//            mVideoDecContext->height,
+//            AV_PIX_FMT_YUV420P,
+//            SWS_POINT,
+//            nullptr,
+//            nullptr,
+//            nullptr
+//    );
 
     log("finish decode and pix_fmt is %d",mVideoDecContext->pix_fmt);
 
