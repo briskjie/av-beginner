@@ -15,4 +15,5 @@ add_subdirectory(ffmpeg_03_open_codec)
 add_subdirectory(ffmpeg_04_decode_video)
 add_subdirectory(ffmpeg_05_decode_video_queue)
 add_subdirectory(ffmpeg_06_decode_video_render)
+add_subdirectory(ffmpeg_07_decode_video_sync)
 

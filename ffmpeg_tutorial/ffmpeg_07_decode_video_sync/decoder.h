@@ -47,23 +47,28 @@ public:
 
     void dumpInfo();
 
-    int startDecodeThread();
+    int startDemultiplex();
+
+    int startDecodeVideo();
 
     AVFormatContext *mFormatContext = nullptr;
     AVCodecContext *mVideoDecContext = nullptr, *mAudioDecContext = nullptr;
     string mPath;
 
     unique_ptr<PacketQueue> packetQueue;
+    unique_ptr<FrameQueue> frameQueue;
 
     int mVideoStreamIdx = -1;
     int mAudioStreamIdx = -1;
 
+//    Display *display;
 
     int mWidth = 0;
     int mHeight = 0;
 
     SwsContext *swsContext;
 
+    thread mDemuxThread;
 private:
 
     int openInputFile(AVFormatContext *&fmt_ctx, const char *filename);

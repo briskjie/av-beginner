@@ -1,7 +1,6 @@
 add_executable(ffmpeg_06_decode_video_render
-        ffmpeg_decode_video_queue.cpp
+        ffmpeg_decode_video_render.cpp
         decoder.cpp
-        display_.cpp
         SDLWrapper.cpp
         )
 

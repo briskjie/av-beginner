@@ -16,7 +16,6 @@
 #include <iostream>
 #include "decoder.h"
 
-#include "display_.h"
 #include "SDLWrapper.h"
 
 using namespace std;
@@ -68,7 +67,8 @@ int main() {
     decoder->openCodec();
     decoder->dumpInfo();
 
-    decoder->startDecodeThread();
+    decoder->startDemultiplex();
+    decoder->startDecodeVideo();
 
     SDLWrapper *sdlWrapper = new SDLWrapper;
 
@@ -92,35 +92,15 @@ int main() {
         if (sdlEvent.type == SDL_USEREVENT_REFRESH) {
 
             std::unique_ptr<AVFrame, std::function<void(AVFrame *)>> frame_decoded{
-                    av_frame_alloc(), [](AVFrame *f) {
+                    nullptr, [](AVFrame *f) {
                         av_frame_unref(f);
                         av_frame_free(&f);
                         log("delete frame in read thread");
                     }
             };
 
-            std::unique_ptr<AVPacket, std::function<void(AVPacket *)>> packet{
-                    nullptr, [](AVPacket *p) {
-                        av_packet_unref(p);
-                        av_packet_free(&p);
-                        log("delete packet in read thread");
-                    }
-            };
-
-            log("pop packet");
-            if (!decoder->packetQueue->pop(packet)) {
-                log("end queue and back");
-                break;
-            }
-
-            bool sent = false;
-            while (!sent) {
-
-                sent = send(decoder->mVideoDecContext, packet.get());
-
-                while (receive(decoder->mVideoDecContext, frame_decoded.get())) {
-
-                    sdlWrapper->refresh({
+            if (decoder->frameQueue->pop(frame_decoded)){
+                                    sdlWrapper->refresh({
                                                 frame_decoded->data[0],
                                                 frame_decoded->data[1],
                                                 frame_decoded->data[2]},
@@ -128,10 +108,31 @@ int main() {
                                                 static_cast<size_t>(frame_decoded->linesize[0]),
                                                 static_cast<size_t>(frame_decoded->linesize[1]),
                                                 static_cast<size_t>(frame_decoded->linesize[2])});
-
-
-                }
+                SDL_Delay(40);
             }
+
+
+//            bool sent = false;
+//            while (!sent) {
+//
+//                sent = send(decoder->mVideoDecContext, packet.get());
+//
+//                while (receive(decoder->mVideoDecContext, frame_decoded.get())) {
+//
+//                    sdlWrapper->refresh({
+//                                                frame_decoded->data[0],
+//                                                frame_decoded->data[1],
+//                                                frame_decoded->data[2]},
+//                                        {
+//                                                static_cast<size_t>(frame_decoded->linesize[0]),
+//                                                static_cast<size_t>(frame_decoded->linesize[1]),
+//                                                static_cast<size_t>(frame_decoded->linesize[2])});
+//
+//
+//                    SDL_Delay(40);
+//                }
+//            }
+
         }else if (sdlEvent.type == SDL_KEYDOWN){
             if (sdlEvent.key.keysym.sym == SDLK_SPACE){
                 isPause = !isPause;
