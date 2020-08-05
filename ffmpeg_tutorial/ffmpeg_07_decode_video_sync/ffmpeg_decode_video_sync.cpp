@@ -52,23 +52,116 @@ int sdl_thread_handle_refreshing(void * opaque) {
         if (!isPause){
             sdlEvent.type = SDL_USEREVENT_REFRESH;
             SDL_PushEvent(&sdlEvent);
-            log("push event");
+//            log("push event");
         }
         SDL_Delay(40);
     }
     return 0;
 }
 
+static void demux_thread(Decoder *decoder) {
+    log("this is decode thread\n");
+
+    int count = 0;
+    for (;;) {
+
+        // move 操作并不会转移删除器
+        std::unique_ptr<AVPacket, std::function<void(AVPacket *)>> packet{
+                new AVPacket, [](AVPacket *p) {
+                    av_packet_unref(p);
+                    av_packet_free(&p);
+//                    log("delete packet in decode thread");
+                }
+        };
+
+        av_init_packet(packet.get());
+
+        packet->data = nullptr;
+
+        int ret = av_read_frame(decoder->mFormatContext, packet.get());
+        if (ret < 0) {
+            decoder->packetQueue->finished();
+            log("finish and ret is %d", ret);
+            break;
+        }
+
+//        log("ret is %d and stream index is %d and video index is %d", ret, packet->stream_index,
+//            decoder->mVideoStreamIdx);
+
+        if (packet->stream_index == decoder->mVideoStreamIdx) {
+            count++;
+            if (!decoder->packetQueue->push(move(packet))) {
+                log("push packet and queue size is %d", decoder->packetQueue->count());
+                break;
+            }
+        }
+
+        log("video count is %d", count);
+    }
+
+    log("finish decode thread");
+}
+
+static void decode_video_thread(Decoder *decoder) {
+    log("this is read thread\n");
+
+    std::function<void(void *, int)> save = pgm_save;
+
+    for (;;) {
+        std::unique_ptr<AVFrame, std::function<void(AVFrame *)>> frame_decoded{
+                av_frame_alloc(), [](AVFrame *f) {
+                    av_frame_unref(f);
+                    av_frame_free(&f);
+                    log("delete frame in read thread");
+                }
+        };
+
+        std::unique_ptr<AVPacket, std::function<void(AVPacket *)>> packet{
+                nullptr, [](AVPacket *p) {
+                    av_packet_unref(p);
+                    av_packet_free(&p);
+                    log("delete packet in read thread");
+                }
+        };
+
+        log("pop packet");
+        if (!decoder->packetQueue->pop(packet)) {
+            log("quit decode thread");
+            decoder->frameQueue->finished();
+            break;
+        }
+
+        bool sent = false;
+        while (!sent) {
+
+            sent = send(decoder->mVideoDecContext, packet.get());
+
+            while (receive(decoder->mVideoDecContext, frame_decoded.get())) {
+                log("push frame");
+                decoder->frameQueue->push(move(frame_decoded));
+                log("push frame and size is %d",decoder->frameQueue->count());
+                break;
+//                save(frame_decoded.get(), decoder->mVideoDecContext->frame_number);
+            }
+        }
+    }
+    log("finish read thread");
+}
 
 int main() {
+
+
 
     shared_ptr<Decoder> decoder = make_shared<Decoder>(path);
     decoder->openInputFile();
     decoder->openCodec();
     decoder->dumpInfo();
 
-    decoder->startDemultiplex();
-    decoder->startDecodeVideo();
+//    decoder->startDemultiplex();
+//    decoder->startDecodeVideo();
+
+    std::thread demux(demux_thread,decoder.get());
+    std::thread decode(decode_video_thread,decoder.get());
 
     SDLWrapper *sdlWrapper = new SDLWrapper;
 
@@ -91,6 +184,8 @@ int main() {
         SDL_WaitEvent(&sdlEvent);
         if (sdlEvent.type == SDL_USEREVENT_REFRESH) {
 
+            cout << "receive SDL_USEREVENT_REFRESH" << endl;
+
             std::unique_ptr<AVFrame, std::function<void(AVFrame *)>> frame_decoded{
                     nullptr, [](AVFrame *f) {
                         av_frame_unref(f);
@@ -108,7 +203,9 @@ int main() {
                                                 static_cast<size_t>(frame_decoded->linesize[0]),
                                                 static_cast<size_t>(frame_decoded->linesize[1]),
                                                 static_cast<size_t>(frame_decoded->linesize[2])});
-                SDL_Delay(40);
+//                SDL_Delay(40);
+            } else {
+                log("no available frame");
             }
 
 

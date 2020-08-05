@@ -47,9 +47,9 @@ public:
 
     void dumpInfo();
 
-    int startDemultiplex();
+    void startDemultiplex();
 
-    int startDecodeVideo();
+    void startDecodeVideo();
 
     AVFormatContext *mFormatContext = nullptr;
     AVCodecContext *mVideoDecContext = nullptr, *mAudioDecContext = nullptr;

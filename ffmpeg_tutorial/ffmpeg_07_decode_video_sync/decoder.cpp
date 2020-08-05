@@ -59,15 +59,15 @@ static void demux_thread(Decoder *decoder) {
         if (packet->stream_index == decoder->mVideoStreamIdx) {
             count++;
             if (!decoder->packetQueue->push(move(packet))) {
-//                log("push packet and queue size is %d", decoder->packetQueue->count());
+                log("push packet and queue size is %d", decoder->packetQueue->count());
                 break;
             }
         }
 
-//        log("video count is %d", count);
+        log("video count is %d", count);
     }
 
-//    log("finish decode thread");
+    log("finish decode thread");
 }
 
 static void decode_video_thread(Decoder *decoder) {
@@ -94,6 +94,7 @@ static void decode_video_thread(Decoder *decoder) {
 
         log("pop packet");
         if (!decoder->packetQueue->pop(packet)) {
+            log("quit decode thread");
             break;
         }
 
@@ -105,6 +106,7 @@ static void decode_video_thread(Decoder *decoder) {
             while (receive(decoder->mVideoDecContext, frame_decoded.get())) {
 //                save(frame_decoded.get(), decoder->mVideoDecContext->frame_number);
                 decoder->frameQueue->push(move(frame_decoded));
+                break;
             }
         }
     }
@@ -221,17 +223,17 @@ void Decoder::dumpInfo() {
 }
 
 
-int Decoder::startDemultiplex() {
+void Decoder::startDemultiplex() {
 
     // 解码线程
-    thread demuxThread(demux_thread, this);
+    std::thread demuxThread(demux_thread, this);
 
-//    decodeThread.join();
+//    demuxThread.join();
 //    mDemuxThread = thread(demuxThread,this);
-    return 0;
+//    return 0;
 }
 
-int Decoder::startDecodeVideo(){
+void Decoder::startDecodeVideo(){
 
     thread decodeVideoThread(decode_video_thread,this);
 
