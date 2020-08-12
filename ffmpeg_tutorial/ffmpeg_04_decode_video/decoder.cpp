@@ -125,9 +125,9 @@ int Decoder::startDecodeVideo(AVFormatContext **fmt_ctx, AVCodecContext **codec_
     while (av_read_frame(*fmt_ctx, *packet) == 0) {
         if ((*packet)->stream_index == videoIndex){
             // 解码保存成 yuv 文件
-//            decode(mVideoDecContext,*packet,*frame,yuv_save);
+            decode(mVideoDecContext,*packet,*frame,yuv_save);
             // 解码保存成 pgm 文件
-            decode(mVideoDecContext,*packet,*frame,pgm_save);
+//            decode(mVideoDecContext,*packet,*frame,pgm_save);
         }
         // 引用计数减一，释放掉 AVPacket 中 Buffer 的内存
         // 如果没有调用这个，导致 flush decoder 时 Buffer 信息情况
@@ -136,8 +136,8 @@ int Decoder::startDecodeVideo(AVFormatContext **fmt_ctx, AVCodecContext **codec_
         av_packet_unref(*packet);
     }
     log("flush decoder\n");
-//    decode(mVideoDecContext,*packet,*frame,yuv_save);
-    decode(mVideoDecContext,*packet,*frame,pgm_save);
+    decode(mVideoDecContext,*packet,*frame,yuv_save);
+//    decode(mVideoDecContext,*packet,*frame,pgm_save);
     return 0;
 }
 
