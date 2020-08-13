@@ -29,15 +29,43 @@ extern "C" {
 #include <libavutil/imgutils.h>
 }
 
+#include <ffmpeg_log.h>
 class FFmpegYuvToH264 {
 
 public:
     FFmpegYuvToH264();
 
+    ~FFmpegYuvToH264();
+
+    int open(string input = "",string output = "",int width = -1,int height = -1);
+    int initContext();
+    int initBuffer();
+    int writeHeader();
+    int encodeData();
+    int writeTrailer();
+
+
 private:
-    string mFilePath;
+    string mInputFilePath;
+    string mOutputFilePath;
     int mWidth;
     int mHeight;
+
+    AVFormatContext *pFormatCtx;
+    AVOutputFormat *pOutputFormatCtx;
+    AVStream  *video_st;
+    AVCodecContext *pCodecCtx;
+
+    AVCodec* pCodec;
+    FILE *input_file = nullptr;
+
+    AVPacket pPacket;
+    AVFrame * pFrame;
+    int picture_size;
+    int y_size;
+    uint8_t *picture_buf;
+    int framenum = 100;
+    int framecnt = 0;
 };
 
 

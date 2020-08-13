@@ -17,10 +17,26 @@
 #include <iostream>
 using namespace std;
 
+#include "fFmpegYuvToH264.h"
+
 #ifdef PROJECT_DIR_PATH
-string path = string(PROJECT_DIR_PATH) + "/resource/video/video-mp4-640x360.mp4";
+string path = string(PROJECT_DIR_PATH) + "/resource/gen/file-yuv-640x360.yuv";
 #endif
 
 int main(){
+
+    shared_ptr<FFmpegYuvToH264> convert = std::make_shared<FFmpegYuvToH264>();
+
+    string output_path = string(PROJECT_DIR_PATH) + "/resource/gen/file-yuv-640x360.h264";
+
+    log("input path is %s",path.c_str());
+    log("output path is %s",output_path.c_str());
+
+    convert->open(path,output_path,640,360);
+    convert->initContext();
+    convert->initBuffer();
+    convert->writeHeader();
+    convert->encodeData();
+    convert->writeTrailer();
 
 }
