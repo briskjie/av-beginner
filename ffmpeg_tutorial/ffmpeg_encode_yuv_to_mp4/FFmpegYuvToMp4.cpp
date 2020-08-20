@@ -54,6 +54,9 @@ int FFmpegYuvToMp4::initContext() {
     pCodecCtx->qmax = 51;
 
     pCodecCtx->max_b_frames = 3;
+    pCodecCtx->refs = 3;
+    // 不设置 qcompress 会导致 avcodec_open2 失败
+    pCodecCtx->qcompress = 0.6;
 
 //    AVDictionary  *param = 0;
 //    if (pCodecCtx->codec_id == AV_CODEC_ID_H264){
@@ -103,6 +106,10 @@ int FFmpegYuvToMp4::open(string input, string output, int width, int height) {
 
 int FFmpegYuvToMp4::initBuffer() {
     pFrame = av_frame_alloc();
+    // 设置 width height format 不然会报 warning ，虽说不影响最终的结果
+    pFrame->width = mWidth;
+    pFrame->height = mHeight;
+    pFrame->format = pCodecCtx->pix_fmt;
     picture_size = avpicture_get_size(pCodecCtx->pix_fmt,pCodecCtx->width,pCodecCtx->height);
     picture_buf = (uint8_t*)av_malloc(picture_size);
     avpicture_fill((AVPicture*)pFrame,picture_buf,pCodecCtx->pix_fmt,pCodecCtx->width,pCodecCtx->height);
