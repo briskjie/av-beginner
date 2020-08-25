@@ -15,24 +15,32 @@
 */
 
 #include <iostream>
+#include <unordered_map>
+#include <map>
+
 using namespace std;
 
-#include "fFmpegYuvToH264.h"
+#include "YuvConvert.h"
+#include "IConvert.h"
+#include <ffmpeg_log.h>
+
+#include <unordered_map>
 
 #ifdef PROJECT_DIR_PATH
 string path = string(PROJECT_DIR_PATH) + "/resource/gen/file-yuv-640x360.yuv";
 #endif
 
-int main(){
 
-    shared_ptr<FFmpegYuvToH264> convert = std::make_shared<FFmpegYuvToH264>();
+int main() {
+
+    shared_ptr<IConvert> convert = make_shared<YUVConvert>();
 
     string output_path = string(PROJECT_DIR_PATH) + "/resource/gen/file-yuv-640x360.h264";
 
-    log("input path is %s",path.c_str());
-    log("output path is %s",output_path.c_str());
+    log("input path is %s", path.c_str());
+    log("output path is %s", output_path.c_str());
 
-    AV_CALL(convert->open(path,output_path,640,360));
+    AV_CALL(convert->open(path, output_path, 640, 360));
 
     AV_CALL(convert->initContext());
 
@@ -41,5 +49,6 @@ int main(){
     AV_CALL(convert->encodeData());
     AV_CALL(convert->writeTrailer());
 
-    return 0;
+
+    return RET_OK;
 }

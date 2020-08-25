@@ -17,5 +17,6 @@ add_subdirectory(ffmpeg_05_decode_video_queue)
 add_subdirectory(ffmpeg_06_decode_video_render)
 add_subdirectory(ffmpeg_07_decode_video_sync)
 add_subdirectory(ffmpeg_encode_yuv_to_h264)
+add_subdirectory(ffmpeg_encode_yuv_to_h264_new)
 add_subdirectory(ffmpeg_encode_yuv_to_mp4)
 

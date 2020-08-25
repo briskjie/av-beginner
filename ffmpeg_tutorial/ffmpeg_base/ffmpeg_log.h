@@ -46,6 +46,10 @@ extern "C"{
 
 #define log(format,...)  logging(LOG_MAGENTA,format,##__VA_ARGS__)
 
+#define AV_CALL(func)                                                           \
+    if (RET_OK != (func)){                                                      \
+        logE("call error file[%s],line[%d]",__FILE__,__LINE__);                  \
+    }                                                                           \
 
 static void logging(const char * color ,const char *fmt, va_list vaList)
 {
