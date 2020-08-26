@@ -16,16 +16,6 @@
 
 #include "YuvConvert.h"
 
-static bool send(AVCodecContext *codec_context, AVPacket *packet) {
-    auto ret = avcodec_send_packet(codec_context, packet);
-    return !(ret == AVERROR(EAGAIN) || ret == AVERROR_EOF);
-}
-
-static bool receive(AVCodecContext *codec_context, AVFrame *frame) {
-    auto ret = avcodec_receive_frame(codec_context, frame);
-    return !(ret == AVERROR(EAGAIN) || ret == AVERROR_EOF);
-}
-
 int YUVConvert::open(string input, string output, int width, int height) {
     if (width == -1 || height == -1 || input.empty() || output.empty()){
         return RET_FAIL;
@@ -185,10 +175,7 @@ int YUVConvert::encodeData() {
 
             av_free_packet(&pPacket);
         }
-
-
     }
-
     return 0;
 }
 

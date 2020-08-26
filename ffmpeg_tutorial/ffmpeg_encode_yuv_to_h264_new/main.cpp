@@ -24,7 +24,6 @@ using namespace std;
 #include "IConvert.h"
 #include <ffmpeg_log.h>
 
-#include <unordered_map>
 
 #ifdef PROJECT_DIR_PATH
 string path = string(PROJECT_DIR_PATH) + "/resource/gen/file-yuv-640x360.yuv";
