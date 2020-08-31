@@ -13,14 +13,16 @@
 * See the License for the specific language governing permissions and
 * limitations under the License.
 */
-#ifndef AV_BEGINNER_SEEKPLAYER_H
-#define AV_BEGINNER_SEEKPLAYER_H
 
-#include "Player.h"
+#ifndef AV_BEGINNER_SDLDEF_H
+#define AV_BEGINNER_SDLDEF_H
 
-class SeekPlayer : public Player {
+#include <SDL.h>
 
+struct SDLContext {
+    SDL_Window *sdlWindow;
+    SDL_Texture *sdlTexture;
+    SDL_Renderer *sdlRenderer;
 };
 
-
-#endif //AV_BEGINNER_SEEKPLAYER_H
+#endif //AV_BEGINNER_SDLDEF_H

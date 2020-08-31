@@ -14,9 +14,31 @@
 * limitations under the License.
 */
 #include <iostream>
+#include "include/Player.h"
+#include "include/SeekPlayer.h"
+#include "ffmpeg_log.h"
+#ifdef PROJECT_DIR_PATH
+string path = string(PROJECT_DIR_PATH) + "/resource/video/video-mp4-768x432.mp4";
+#endif
 
+int test(){
+    return -1;
+}
 
+class SP{
+
+};
 int main(){
+
+    unique_ptr<Player> player = make_unique<SeekPlayer>();
+
+    AV_CALL(player->init());
+    AV_CALL(player->open(path.c_str()));
+//    AV_CALL(player->)
+
+//    shared_ptr<uint8_t> test  = shared_ptr<uint8_t>(new uint8_t[10],[](uint8_t* p){
+//        delete[] p ;
+//    });
 
 
     return 0;

@@ -62,6 +62,7 @@ Decoder::openCodecContext(int *stream_idx, AVCodecContext **codec_ctx,
     int stream_index;
     AVStream *stream;
     AVCodec *codec;
+    // 找到指定流的相关信息，返回流的index，也可以用 av_find_stream_info 来代替
     ret = av_find_best_stream(fmt_ctx, type, -1, -1, nullptr, 0);
 
     if (ret < 0) {

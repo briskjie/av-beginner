@@ -39,20 +39,30 @@ public:
 
     Player() = default;
 
-    virtual int open(string path);
-    virtual int initContext();
+    virtual int init();
+    virtual int open(string path,int width = -1,int height = -1);
+    virtual int initVideoFrame(shared_ptr<AVFrame> &,shared_ptr<AVCodecContext> &);
+    virtual int initVideoSwsContext(shared_ptr<SwsContext> &,shared_ptr<AVCodecContext> &);
+    virtual int initAudioSwrContext(shared_ptr<SwrContext> &);
+    virtual int openCodecContext(int *stream_idx,shared_ptr<AVCodecContext> &,shared_ptr<AVFormatContext> &,enum AVMediaType type);
 
-private:
+protected:
 
     shared_ptr<AVCodecContext> spVideoCodecCtx, spAudioCodecCtx;
     shared_ptr<AVCodec> spVideoCodec, spAudioCodec;
     shared_ptr<AVFormatContext> spFormatContext;
     shared_ptr<AVPacket> spPacket;
     shared_ptr<SwsContext> spVideoConvertCtx;
-    shared_ptr<SwrContext> spAudioConvextCtx;
+    shared_ptr<SwrContext> spAudioConvertCtx;
 
-    int videoIndex,audioIndex;
+    shared_ptr<AVFrame> spVideoFrame ;
+    shared_ptr<AVFrame> spYUVFrame;
 
+    shared_ptr<uint8_t> spBuffer;
+    int videoIndex = -1,audioIndex = -1;
+    int mVideoWidth = -1,mVideoHeight = -1;
+
+    shared_ptr<SwsContext> spVideoSwsContext;
 
 };
 

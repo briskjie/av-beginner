@@ -14,7 +14,7 @@
 * limitations under the License.
 */
 
-extern "C"{
+extern "C" {
 #include <libavutil/log.h>
 }
 
@@ -22,7 +22,7 @@ extern "C"{
 #define AV_BEGINNER_FFMPEG_LOG_H
 
 #define RET_OK 0
-#define RET_FAIL 1
+#define RET_FAIL -1
 
 #define LOG_NONE    "\e[0m"
 #define LOG_BLACK   "\e[0;30m"
@@ -34,35 +34,52 @@ extern "C"{
 #define LOG_CYAN    "\e[0;36m"
 #define LOG_WHITE   "\e[1;37m"
 
-#define logD(format,...) logging(LOG_GREEN,format,##__VA_ARGS__)
+#define logD(format, ...) logging(LOG_GREEN,format,##__VA_ARGS__)
 
-#define logI(format,...) logging(LOG_WHITE,format,##__VA_ARGS__)
+#define logI(format, ...) logging(LOG_WHITE,format,##__VA_ARGS__)
 
-#define logV(format,...) logging(LOG_BLUE,format,##__VA_ARGS__)
+#define logV(format, ...) logging(LOG_BLUE,format,##__VA_ARGS__)
 
-#define logW(format,...) logging(LOG_YELLOW,format,##__VA_ARGS__)
+#define logW(format, ...) logging(LOG_YELLOW,format,##__VA_ARGS__)
 
-#define logE(format,...) logging(LOG_RED,format,##__VA_ARGS__)
+#define logE(format, ...) logging(LOG_RED,format,##__VA_ARGS__)
 
-#define log(format,...)  logging(LOG_MAGENTA,format,##__VA_ARGS__)
+#define log(format, ...)  logging(LOG_MAGENTA,format,##__VA_ARGS__)
 
-#define AV_CALL(func)                                                           \
-    if (RET_OK != (func)){                                                      \
-        logE("call error file[%s],line[%d]",__FILE__,__LINE__);                  \
-    }                                                                           \
+#define AV_CALL(func)                                                                                       \
+    if (RET_OK != (func)){                                                                                  \
+        logE("call error file[%s],line[%d]",__FILE__,__LINE__);                                             \
+    }                                                                                                       \
 
-static void logging(const char * color ,const char *fmt, va_list vaList)
-{
-    printf("%s [av-beginner]: ",color);
-    vprintf( fmt, vaList );
-    printf(LOG_NONE "\n" );
+
+#define AV_RETURN_IF(bValue, retValue, fmt, ...)                                                                \
+    if (bValue){                                                                                              \
+        logE("function %s() line %d " fmt,__FUNCTION__, __LINE__,__VA_ARGS__);                             \
+        return   (retValue)      ;                                                                       \
+    }                                                                                                       \
+
+
+
+#define AV_RETURN_IF_NEGATIVE(func, ret_value, msg)                                                                    \
+    AV_RETURN_IF((func) < 0,ret_value,msg " error code:%d ",ret_value)  ;                                               \
+
+
+#define AV_RETURN_IF_NULL(x, ret_value )                           \
+    AV_RETURN_IF((x) == nullptr,ret_value, "%s is null ",#x);                                  \
+
+
+
+
+static void logging(const char *color, const char *fmt, va_list vaList) {
+    printf("%s [av-beginner]: ", color);
+    vprintf(fmt, vaList);
+    printf(LOG_NONE "\n");
 }
 
-static void logging(const char * color ,const char *fmt, ...)
-{
+static void logging(const char *color, const char *fmt, ...) {
     va_list args;
-    va_start( args, fmt );
-    logging(color,fmt,args);
+    va_start(args, fmt);
+    logging(color, fmt, args);
     va_end(args);
 }
 
